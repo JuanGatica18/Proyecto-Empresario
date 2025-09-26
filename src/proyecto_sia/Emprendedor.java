@@ -1,7 +1,5 @@
 package proyecto_sia;
 
-
-
 public class Emprendedor {
     private String nombre;
     private String rut;
@@ -9,7 +7,8 @@ public class Emprendedor {
     private String tipoEmprendimiento;
 
     // Constructor
-    public Emprendedor(String nombre, String rut, double capital, String tipoEmprendimiento) {
+    public Emprendedor(String nombre, String rut, double capital, String tipoEmprendimiento) 
+    		throws Excepciones.RutInvalidoException, Excepciones.CapitalInvalidoException {
         setNombre(nombre);
         setRut(rut);
         setCapital(capital);
@@ -24,8 +23,17 @@ public class Emprendedor {
 
     // Setters
     public void setNombre(String nombre) { this.nombre = nombre; }
-    public void setRut(String rut) { this.rut = rut; }
-    public void setCapital(double capital) { if(capital >= 0) this.capital = capital; }
+    
+    public void setRut(String rut) throws Excepciones.RutInvalidoException { 
+    	if (rut.length() == 8 || rut.length() == 9) this.rut = rut;
+    	else throw new Excepciones.RutInvalidoException("El rut no puede tener menos de 8 o más 9 dígitos.");
+    	}
+    
+    public void setCapital(double capital) throws Excepciones.CapitalInvalidoException { 
+    	if(capital > 0) this.capital = capital; 
+    	else throw new Excepciones.CapitalInvalidoException("El capital no puede ser negativo.");
+    	}
+    
     public void setTipoEmprendimiento(String tipoEmprendimiento) { this.tipoEmprendimiento = tipoEmprendimiento; }
 
     // Para GUI

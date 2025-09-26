@@ -3,7 +3,7 @@ package proyecto_sia;
 import javax.swing.*;       // JFrame, JButton, JOptionPane, JTextArea, JScrollPane
 import java.awt.*;          // FlowLayout, Dimension
 
-public class Proyecto_sia{
+public class Proyecto_sia extends Excepciones{
 
     public static void main(String[] args) {
         // Crear bitácoras iniciales
@@ -31,11 +31,13 @@ public class Proyecto_sia{
         
         frame.setLayout(null);
         
+        //Tamaño y posición de los botones
         btnInsertar.setBounds(10, 50, 370, 50);
         btnMostrarTodo.setBounds(10, 105, 370, 50);
         btnMostrarEspecifico.setBounds(10, 160, 370, 50);
         btnCapitalMin.setBounds(10, 215, 370, 50);
         
+        //Se agregan los botones a la ventana
         frame.add(btnInsertar);
         frame.add(btnMostrarTodo);
         frame.add(btnMostrarEspecifico);
@@ -46,12 +48,12 @@ public class Proyecto_sia{
         // 1) Insertar nuevo emprendedor
         btnInsertar.addActionListener(e -> {
             try {
-                String nombre = JOptionPane.showInputDialog(frame, "Nombre:");
-                if(nombre == null || nombre.isEmpty()) return;
-
+            	String nombre = JOptionPane.showInputDialog(frame, "Nombre:");
+            	if(nombre == null || nombre.isEmpty()) return;
+            	
                 String rut = JOptionPane.showInputDialog(frame, "RUT:");
                 if(rut == null || rut.isEmpty()) return;
-
+                  
                 String capStr = JOptionPane.showInputDialog(frame, "Capital:");
                 double capital = Double.parseDouble(capStr);
 
@@ -70,9 +72,12 @@ public class Proyecto_sia{
                 }
                 if(!agregado) JOptionPane.showMessageDialog(frame, "No existe bitácora para ese tipo.");
                 else JOptionPane.showMessageDialog(frame, "Emprendedor agregado correctamente.");
-            } catch(NumberFormatException ex) {
+            } catch (Excepciones.RutInvalidoException errorRut) {
+            	JOptionPane.showMessageDialog(frame, "Rut inválido.");
+            	
+            } catch(Excepciones.CapitalInvalidoException errorCapital) {
                 JOptionPane.showMessageDialog(frame, "Capital inválido.");
-            }
+            } 
         });
 
         // 2) Mostrar todas las bitácoras y emprendedores
