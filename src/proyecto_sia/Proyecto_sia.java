@@ -73,10 +73,10 @@ public class Proyecto_sia extends Excepciones{
                 if(!agregado) JOptionPane.showMessageDialog(frame, "No existe bitácora para ese tipo.");
                 else JOptionPane.showMessageDialog(frame, "Emprendedor agregado correctamente.");
             } catch (Excepciones.RutInvalidoException errorRut) {
-            	JOptionPane.showMessageDialog(frame, "Rut inválido.");
+            	JOptionPane.showMessageDialog(frame, "Rut inválido. \n" + errorRut.getMessage());
             	
             } catch(Excepciones.CapitalInvalidoException errorCapital) {
-                JOptionPane.showMessageDialog(frame, "Capital inválido.");
+                JOptionPane.showMessageDialog(frame, "Capital inválido. \n" + errorCapital.getMessage());
             } 
         });
 
