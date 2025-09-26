@@ -1,5 +1,7 @@
 package proyecto_sia;
 
+import javax.swing.*;       // Para JFrame, JOptionPane, JTextArea, JScrollPane
+import java.awt.*;          // Para Dimension
 import java.util.ArrayList;
 
 public class Proyecto {
@@ -23,27 +25,38 @@ public class Proyecto {
     // Agregar bitácora
     public void agregarBitacora(Bitacora b) { getBitacoras().add(b); }
 
-    // Mostrar todas las bitácoras
-    public void mostrarBitacoras() {
-        System.out.println("Proyecto: " + getNombreProyecto());
-        System.out.println("==============================");
-        int i = 0;
-        while(i < getBitacoras().size()) {
-            getBitacoras().get(i).mostrarEmprendedores();
-            i++;
+    // Devuelve todas las bitácoras como String
+    public String mostrarBitacorasString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Proyecto: ").append(getNombreProyecto()).append("\n==============================\n");
+        for(Bitacora b : getBitacoras()) {
+            sb.append("== ").append(b.getTipo()).append(" ==\n");
+            sb.append(b.getEmprendedoresString()).append("\n");
         }
+        return sb.toString();
     }
 
-    // Mostrar solo una bitácora específica
-    public void mostrarBitacoras(String tipo) {
-        System.out.println("Proyecto: " + getNombreProyecto() + " (filtrado por " + tipo + ")");
-        System.out.println("==============================");
-        int i = 0;
-        while(i < getBitacoras().size()) {
-            if(getBitacoras().get(i).getTipo().equals(tipo)) {
-                getBitacoras().get(i).mostrarEmprendedores();
+    // Devuelve solo una bitácora específica como String
+    public String mostrarBitacorasString(String tipo) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Proyecto: ").append(getNombreProyecto()).append(" (filtrado por ").append(tipo).append(")\n");
+        sb.append("==============================\n");
+        for(Bitacora b : getBitacoras()) {
+            if(b.getTipo().equalsIgnoreCase(tipo)) {
+                sb.append(b.getEmprendedoresString()).append("\n");
             }
-            i++;
         }
+        return sb.toString();
+    }
+
+    // Muestra bitácora en un JOptionPane
+    public void mostrarBitacorasSwing(String tipo, JFrame frame) {
+        String contenido = mostrarBitacorasString(tipo);
+        if(contenido.trim().isEmpty()) contenido = "No se encontró la bitácora " + tipo;
+        JTextArea textArea = new JTextArea(contenido);
+        textArea.setEditable(false);
+        JScrollPane scrollPane = new JScrollPane(textArea);
+        scrollPane.setPreferredSize(new Dimension(400, 200));
+        JOptionPane.showMessageDialog(frame, scrollPane, "Bitácora: " + tipo, JOptionPane.INFORMATION_MESSAGE);
     }
 }

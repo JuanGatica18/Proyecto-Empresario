@@ -1,5 +1,7 @@
 package proyecto_sia;
 
+
+
 public class Emprendedor {
     private String nombre;
     private String rut;
@@ -26,11 +28,12 @@ public class Emprendedor {
     public void setCapital(double capital) { if(capital >= 0) this.capital = capital; }
     public void setTipoEmprendimiento(String tipoEmprendimiento) { this.tipoEmprendimiento = tipoEmprendimiento; }
 
-    // Mostrar información
-    public void mostrarInfo() {
-        System.out.println("Nombre: " + nombre);
-        System.out.println("RUT: " + rut);
-        System.out.println("Capital: $" + String.format("%.2f", capital));
-        System.out.println("Tipo de emprendimiento: " + tipoEmprendimiento);
+    // Para GUI
+    @Override
+    public String toString() {
+        return "Nombre: " + nombre +
+               "\nRUT: " + rut +
+               "\nCapital: $" + String.format("%.2f", capital) +
+               "\nTipo de emprendimiento: " + tipoEmprendimiento;
     }
 }

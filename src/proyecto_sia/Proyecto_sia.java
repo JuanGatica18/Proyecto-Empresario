@@ -1,95 +1,113 @@
 package proyecto_sia;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.IOException;
+import javax.swing.*;       // JFrame, JButton, JOptionPane, JTextArea, JScrollPane
+import java.awt.*;          // FlowLayout, Dimension
 
-public class Proyecto_sia {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+public class Proyecto_sia{
 
-        // Bitácoras iniciales
+    public static void main(String[] args) {
+        // Crear bitácoras iniciales
         Bitacora bFarmacia = new Bitacora("Farmacia");
         Bitacora bTecnologia = new Bitacora("Tecnologia");
         Bitacora bComida = new Bitacora("Comida Rapida");
 
-        // Proyecto
         Proyecto proyecto = new Proyecto("Registro Emprendedores");
         proyecto.agregarBitacora(bFarmacia);
         proyecto.agregarBitacora(bTecnologia);
         proyecto.agregarBitacora(bComida);
 
-        int opcion = 0;
+        // Crear ventana
+        JFrame frame = new JFrame("Sistema de Emprendedores");
+        frame.setSize(400, 350);
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLayout(new FlowLayout());
 
-        while(opcion != 5) {
-            System.out.println("\n=== MENÚ SISTEMA DE EMPRENDEDORES ===");
-            System.out.println("1) Insertar nuevo emprendedor");
-            System.out.println("2) Mostrar todas las bitácoras y emprendedores");
-            System.out.println("3) Mostrar una bitácora específica");
-            System.out.println("4) Mostrar emprendedores con capital mínimo (>= 10000)");
-            System.out.println("5) Salir");
-            System.out.print("Ingrese opción: ");
+        // Botones
+        JButton btnInsertar = new JButton("1) Insertar nuevo emprendedor");
+        JButton btnMostrarTodo = new JButton("2) Mostrar todas las bitácoras y emprendedores");
+        JButton btnMostrarEspecifico = new JButton("3) Mostrar una bitácora específica");
+        JButton btnCapitalMin = new JButton("4) Mostrar emprendedores (Capital >= 10000)");
+        
+        frame.setLayout(null);
+        
+        btnInsertar.setBounds(10, 50, 370, 50);
+        btnMostrarTodo.setBounds(10, 105, 370, 50);
+        btnMostrarEspecifico.setBounds(10, 160, 370, 50);
+        btnCapitalMin.setBounds(10, 215, 370, 50);
+        
+        frame.add(btnInsertar);
+        frame.add(btnMostrarTodo);
+        frame.add(btnMostrarEspecifico);
+        frame.add(btnCapitalMin);
 
-            opcion = Integer.parseInt(br.readLine());
+        // --- ACCIONES ---
 
-            switch(opcion) {
-                case 1:
-                    System.out.print("Nombre: ");
-                    String nombre = br.readLine();
-                    System.out.print("RUT: ");
-                    String rut = br.readLine();
-                    System.out.print("Capital: ");
-                    double capital = Double.parseDouble(br.readLine());
-                    System.out.print("Tipo de emprendimiento (Farmacia/Tecnologia/Comida Rapida): ");
-                    String tipo = br.readLine();
+        // 1) Insertar nuevo emprendedor
+        btnInsertar.addActionListener(e -> {
+            try {
+                String nombre = JOptionPane.showInputDialog(frame, "Nombre:");
+                if(nombre == null || nombre.isEmpty()) return;
 
-                    Emprendedor e = new Emprendedor(nombre, rut, capital, tipo);
+                String rut = JOptionPane.showInputDialog(frame, "RUT:");
+                if(rut == null || rut.isEmpty()) return;
 
-                    boolean agregado = false;
-                    int i = 0;
-                    while(i < proyecto.getBitacoras().size()) {
-                        Bitacora b = proyecto.getBitacoras().get(i);
-                        if(b.getTipo().equalsIgnoreCase(tipo)) {
-                            b.agregarEmprendedor(e);
-                            agregado = true;
-                            break;
-                        }
-                        i++;
+                String capStr = JOptionPane.showInputDialog(frame, "Capital:");
+                double capital = Double.parseDouble(capStr);
+
+                String tipo = JOptionPane.showInputDialog(frame, "Tipo de emprendimiento (Farmacia/Tecnologia/Comida Rapida):");
+                if(tipo == null || tipo.isEmpty()) return;
+
+                Emprendedor eNuevo = new Emprendedor(nombre, rut, capital, tipo);
+
+                boolean agregado = false;
+                for(Bitacora b : proyecto.getBitacoras()) {
+                    if(b.getTipo().equalsIgnoreCase(tipo)) {
+                        b.agregarEmprendedor(eNuevo);
+                        agregado = true;
+                        break;
                     }
-                    if(!agregado) System.out.println("No existe bitácora para ese tipo.");
-                    break;
-
-                case 2:
-                    int j = 0;
-                    while(j < proyecto.getBitacoras().size()) {
-                        proyecto.getBitacoras().get(j).mostrarEmprendedores();
-                        j++;
-                    }
-                    break;
-
-                case 3:
-                    System.out.print("Ingrese el tipo de bitácora a mostrar: ");
-                    String tipoBuscado = br.readLine();
-                    proyecto.mostrarBitacoras(tipoBuscado);
-                    break;
-
-                case 4:
-                    double capitalMinimo = 10000;
-                    int k = 0;
-                    while(k < proyecto.getBitacoras().size()) {
-                        proyecto.getBitacoras().get(k).mostrarEmprendedores(capitalMinimo);
-                        k++;
-                    }
-                    break;
-
-                case 5:
-                    System.out.println("Saliendo del sistema...");
-                    break;
-
-                default:
-                    System.out.println("Opción inválida, intente nuevamente.");
-                    break;
+                }
+                if(!agregado) JOptionPane.showMessageDialog(frame, "No existe bitácora para ese tipo.");
+                else JOptionPane.showMessageDialog(frame, "Emprendedor agregado correctamente.");
+            } catch(NumberFormatException ex) {
+                JOptionPane.showMessageDialog(frame, "Capital inválido.");
             }
-        }
+        });
+
+        // 2) Mostrar todas las bitácoras y emprendedores
+        btnMostrarTodo.addActionListener(e -> {
+            String contenido = proyecto.mostrarBitacorasString();
+            JTextArea textArea = new JTextArea(contenido);
+            textArea.setEditable(false);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(500, 200));
+            JOptionPane.showMessageDialog(frame, scrollPane, "Todas las bitácoras", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        // 3) Mostrar una bitácora específica
+        btnMostrarEspecifico.addActionListener(e -> {
+            String tipoBuscado = JOptionPane.showInputDialog(frame, "Ingrese el tipo de bitácora a mostrar:");
+            if(tipoBuscado != null && !tipoBuscado.isEmpty()) {
+                proyecto.mostrarBitacorasSwing(tipoBuscado, frame);
+            }
+        });
+
+        // 4) Mostrar emprendedores con capital >= 10000
+        btnCapitalMin.addActionListener(e -> {
+            double capitalMin = 10000;
+            StringBuilder sb = new StringBuilder();
+            for(Bitacora b : proyecto.getBitacoras()) {
+                sb.append("== ").append(b.getTipo()).append(" ==\n");
+                sb.append(b.getEmprendedoresConCapital(capitalMin)).append("\n");
+            }
+            JTextArea textArea = new JTextArea(sb.toString());
+            textArea.setEditable(false);
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            scrollPane.setPreferredSize(new Dimension(500, 200));
+            JOptionPane.showMessageDialog(frame, scrollPane, "Emprendedores con capital >= 10000", JOptionPane.INFORMATION_MESSAGE);
+        });
+
+        frame.setVisible(true);
     }
 }

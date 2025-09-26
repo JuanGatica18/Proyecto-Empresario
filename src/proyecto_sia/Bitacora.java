@@ -22,7 +22,7 @@ public class Bitacora {
 
     // Agregar emprendedor
     public void agregarEmprendedor(Emprendedor e) {
-        if (e.getTipoEmprendimiento().equals(tipo)) {
+        if (e.getTipoEmprendimiento().equalsIgnoreCase(tipo)) {
             emprendedores.put(e.getRut(), e);
             System.out.println("El emprendedor " + e.getNombre() + " fue agregado a la bitácora de " + tipo);
         } else {
@@ -30,31 +30,25 @@ public class Bitacora {
         }
     }
 
-    // Mostrar todos los emprendedores
-    public void mostrarEmprendedores() {
-        System.out.println("Bitácora: " + tipo);
-        Object[] claves = emprendedores.keySet().toArray();
-        int i = 0;
-        while(i < claves.length) {
-            Emprendedor e = emprendedores.get(claves[i]);
-            e.mostrarInfo();
-            System.out.println("------");
-            i++;
+    // Devuelve todos los emprendedores como String
+    public String getEmprendedoresString() {
+        if(emprendedores.isEmpty()) return "No hay emprendedores registrados.\n";
+        StringBuilder sb = new StringBuilder();
+        for(Emprendedor e : emprendedores.values()) {
+            sb.append(e.toString()).append("\n------\n");
         }
+        return sb.toString();
     }
 
-    // Mostrar solo con capital mínimo
-    public void mostrarEmprendedores(double capitalMinimo) {
-        System.out.println("Bitácora: " + tipo + " (solo con capital >= $" + capitalMinimo + ")");
-        Object[] claves = emprendedores.keySet().toArray();
-        int i = 0;
-        while(i < claves.length) {
-            Emprendedor e = emprendedores.get(claves[i]);
+    // Devuelve solo emprendedores con capital mínimo como String
+    public String getEmprendedoresConCapital(double capitalMinimo) {
+        StringBuilder sb = new StringBuilder();
+        for(Emprendedor e : emprendedores.values()) {
             if(e.getCapital() >= capitalMinimo) {
-                e.mostrarInfo();
-                System.out.println("------");
+                sb.append(e.toString()).append("\n------\n");
             }
-            i++;
         }
+        if(sb.length() == 0) sb.append("No hay emprendedores con capital >= " + capitalMinimo + "\n");
+        return sb.toString();
     }
 }
