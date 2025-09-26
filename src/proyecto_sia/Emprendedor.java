@@ -24,7 +24,11 @@ public class Emprendedor {
     // Setters
     public void setNombre(String nombre) { this.nombre = nombre; }
     
-    public void setRut(String rut) throws Excepciones.RutInvalidoException { 
+    public void setRut(String rut) throws Excepciones.RutInvalidoException {
+    	int rutInt = Integer.parseInt(rut);
+    	if (rutInt < 0) {
+            throw new Excepciones.RutInvalidoException("El RUT no puede ser negativo");
+    	}
     	if (rut.length() == 8 || rut.length() == 9) this.rut = rut;
     	else throw new Excepciones.RutInvalidoException("El rut no puede tener menos de 8 o más 9 dígitos.");
     	}
