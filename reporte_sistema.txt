@@ -1,0 +1,24 @@
+=== REPORTE DEL SISTEMA ===
+Generado: Sat Sep 27 15:04:10 CLST 2025
+
+=== EMPRENDEDORES ===
+Bitácora: Tecnología
+
+Bitácora: Salud
+- juan | RUT: 22119441-1 | Capital: $1000.0 | Proyectos: 0
+
+Bitácora: Educación
+
+Bitácora: Alimentos
+
+Bitácora: Manufactura
+
+=== MENTORES ===
+
+=== INVERSORES ===
+
+=== TOTALES ===
+Emprendedores: 1
+Mentores: 0
+Inversores: 0
+Bitácoras: 5
