@@ -38,7 +38,7 @@ public class Sistema {
         }
     }
 
-    // MÉTODO PRINCIPAL DE INICIALIZACIÓN - VERSIÓN ROBUSTA
+    // MÉTODO PRINCIPAL DE INICIALIZACIÓN - VERSIÓN ROBUSTA CORREGIDA
     public void inicializarSistema() {
         System.out.println("=== INICIALIZANDO SISTEMA ===");
         
@@ -66,10 +66,69 @@ public class Sistema {
             cargarInversoresEjemplo();
         }
         
-
+        // ✅ CORRECCIÓN CRÍTICA: Sincronizar datos después de la carga
+        sincronizarDatos();
+        
+        System.out.println("=== SISTEMA INICIALIZADO ===");
+        System.out.println("Emprendedores totales: " + mapaEmprendedores.size());
+        System.out.println("Inversores totales: " + inversores.size());
+        mostrarEstadoBitacoras();
+    }
+    
+    // ✅ NUEVO MÉTODO: Sincronizar datos entre mapa y bitácoras
+    private void sincronizarDatos() {
+        System.out.println("=== SINCRONIZANDO DATOS ===");
+        
+        // Si hay emprendedores en el mapa pero no en bitácoras, distribuirlos
+        if (!mapaEmprendedores.isEmpty()) {
+            int emprendedoresEnBitacoras = 0;
+            for (Bitacora b : bitacoras) {
+                emprendedoresEnBitacoras += b.getEmprendedores().size();
+            }
+            
+            System.out.println("Emprendedores en mapa: " + mapaEmprendedores.size());
+            System.out.println("Emprendedores en bitácoras: " + emprendedoresEnBitacoras);
+            
+            if (emprendedoresEnBitacoras == 0) {
+                // Redistribuir emprendedores del mapa a las bitácoras
+                redistribuirEmprendedores();
+            }
+        }
+    }
+    
+    // ✅ NUEVO MÉTODO: Redistribuir emprendedores cuando están solo en el mapa
+    private void redistribuirEmprendedores() {
+        System.out.println("Redistribuyendo emprendedores a bitácoras...");
+        
+        String[] tiposBitacora = {"Tecnologia", "Salud", "Educacion", "Alimentos"};
+        int indice = 0;
+        
+        for (Emprendedor emp : mapaEmprendedores.values()) {
+            String tipoBitacora = tiposBitacora[indice % tiposBitacora.length];
+            
+            // Buscar la bitácora correspondiente
+            for (Bitacora b : bitacoras) {
+                if (b.getTipo().equals(tipoBitacora)) {
+                    if (!b.getEmprendedores().contains(emp)) {
+                        b.agregarEmprendedor(emp);
+                        System.out.println("Emprendedor " + emp.getNombre() + " agregado a bitácora " + tipoBitacora);
+                    }
+                    break;
+                }
+            }
+            indice++;
+        }
+    }
+    
+    // ✅ MÉTODO AUXILIAR: Mostrar estado de las bitácoras
+    private void mostrarEstadoBitacoras() {
+        System.out.println("--- Estado de Bitácoras ---");
+        for (Bitacora b : bitacoras) {
+            System.out.println(b.getTipo() + ": " + b.getEmprendedores().size() + " emprendedores");
+        }
     }
 
-    // Método auxiliar para intentar cargar emprendedores SIN limpiar datos existentes
+    // Método auxiliar para intentar cargar emprendedores CORREGIDO
     private boolean intentarCargarEmprendedores() {
         try {
             File archivo = new File("emprendedores.csv");
@@ -78,30 +137,35 @@ public class Sistema {
                 return false;
             }
 
-            // Cargar en colecciones temporales primero
-            Map<String, Emprendedor> tempMapa = new HashMap<>();
-            List<Bitacora> tempBitacoras = new ArrayList<>();
-
-            // Crear bitácoras temporales
-            String[] tipos = {"Tecnologia", "Salud", "Educacion", "Alimentos"};
-            for (String tipo : tipos) {
-                tempBitacoras.add(new Bitacora(tipo));
-            }
+            // ✅ CORRECCIÓN: No limpiar datos existentes hasta confirmar carga exitosa
+            Map<String, Emprendedor> tempMapa = new HashMap<>(mapaEmprendedores);
 
             try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
                 String linea;
-                br.readLine(); // Saltar encabezado
+                String encabezado = br.readLine(); // Saltar encabezado
+                if (encabezado == null) {
+                    System.out.println("Archivo CSV vacío");
+                    return false;
+                }
+                
                 int contadorCargados = 0;
 
                 while ((linea = br.readLine()) != null) {
+                    if (linea.trim().isEmpty()) continue;
+                    
                     String[] datos = linea.split(",");
-                    if (datos.length >= 5) {
+                    if (datos.length >= 4) { // Mínimo 4 campos requeridos
                         try {
                             String nombre = datos[0].trim();
                             String rut = datos[1].trim();
                             String email = datos[2].trim();
                             double capital = Double.parseDouble(datos[3].trim());
-                            String tipoBitacora = datos[4].trim();
+                            
+                            // TipoBitacora opcional (campo 5)
+                            String tipoBitacora = "Tecnologia"; // Por defecto
+                            if (datos.length >= 5) {
+                                tipoBitacora = datos[4].trim();
+                            }
 
                             Emprendedor emp = new Emprendedor(nombre, rut, email, capital);
 
@@ -109,15 +173,9 @@ public class Sistema {
                             agregarProyectosPorDefecto(emp, tipoBitacora);
 
                             tempMapa.put(rut, emp);
-
-                            // Encontrar bitácora y agregar
-                            for (Bitacora b : tempBitacoras) {
-                                if (b.getTipo().equalsIgnoreCase(tipoBitacora)) {
-                                    b.agregarEmprendedor(emp);
-                                    break;
-                                }
-                            }
                             contadorCargados++;
+                            
+                            System.out.println("Cargado: " + nombre + " (" + rut + ")");
                         } catch (NumberFormatException ex) {
                             System.err.println("Error de formato en línea: " + linea);
                         }
@@ -128,10 +186,6 @@ public class Sistema {
                 if (contadorCargados > 0) {
                     mapaEmprendedores.clear();
                     mapaEmprendedores.putAll(tempMapa);
-
-                    // Reemplazar bitácoras
-                    bitacoras.clear();
-                    bitacoras.addAll(tempBitacoras);
 
                     System.out.println("Emprendedores cargados desde CSV: " + contadorCargados);
                     return true;
@@ -154,7 +208,7 @@ public class Sistema {
                 return false;
             }
             
-            List<Inversor> tempInversores = new ArrayList<>();
+            List<Inversor> tempInversores = new ArrayList<>(inversores);
             
             try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
                 String linea;
@@ -162,6 +216,8 @@ public class Sistema {
                 int contadorCargados = 0;
                 
                 while ((linea = br.readLine()) != null) {
+                    if (linea.trim().isEmpty()) continue;
+                    
                     String[] datos = linea.split(",");
                     if (datos.length >= 4) {
                         try {
@@ -201,10 +257,12 @@ public class Sistema {
         cargarInversoresEjemplo();
     }
 
-    // Cargar solo emprendedores de ejemplo
+    // ✅ CORRECCIÓN: Cargar emprendedores de ejemplo Y agregarlos a bitácoras
     private void cargarEmprendedoresEjemplo() {
         try {
-            // Limpiar solo si vamos a agregar datos
+            System.out.println("Cargando emprendedores de ejemplo...");
+            
+            // Limpiar datos existentes
             mapaEmprendedores.clear();
             for (Bitacora b : bitacoras) {
                 b.getEmprendedores().clear();
@@ -218,10 +276,15 @@ public class Sistema {
 
             Emprendedor emp3 = new Emprendedor("Educa Chile", "33333333-3", "edu@edu.cl", 5000.0);
             agregarProyectosPorDefecto(emp3, "Educacion");
+            
+            Emprendedor emp4 = new Emprendedor("Ali Mentos", "44444444-4", "ali@alimentos.cl", 15000.0);
+            agregarProyectosPorDefecto(emp4, "Alimentos");
 
+            // ✅ CORRECCIÓN CRÍTICA: Usar el método correcto que agrega a AMBAS estructuras
             agregarEmprendedor(emp1, "Tecnologia");
             agregarEmprendedor(emp2, "Salud");
             agregarEmprendedor(emp3, "Educacion");
+            agregarEmprendedor(emp4, "Alimentos");
             
             System.out.println("Emprendedores de ejemplo cargados: " + mapaEmprendedores.size());
             
@@ -238,7 +301,6 @@ public class Sistema {
         System.out.println("Inversores de ejemplo cargados: " + inversores.size());
     }
     
-
     // =========================================================================
     // MÉTODOS DE NEGOCIO
     // =========================================================================
@@ -257,8 +319,11 @@ public class Sistema {
         }
         
         if (bitacoraDestino != null) {
+            // ✅ CRÍTICO: Agregar a AMBAS estructuras
             bitacoraDestino.agregarEmprendedor(emprendedor);
             mapaEmprendedores.put(emprendedor.getRut(), emprendedor);
+            
+            System.out.println("Emprendedor " + emprendedor.getNombre() + " agregado a " + tipoBitacora);
         } else {
             throw new DatosInvalidosException("El tipo de bitácora '" + tipoBitacora + "' no existe.");
         }
@@ -553,6 +618,4 @@ public class Sistema {
                 break;
         }
     }
-
-
 }
