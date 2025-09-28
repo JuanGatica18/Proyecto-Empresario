@@ -112,48 +112,27 @@ public class VentanaGestionEmprendedores extends VentanaBase {
         cargarTodosEmprendedores();
     }
 
-    // ✅ MÉTODO CORREGIDO: Cargar emprendedores desde AMBAS fuentes
     private void cargarTodosEmprendedores() {
         tableView.getItems().clear();
         
-        System.out.println("=== DEBUG: Cargando emprendedores ===");
-        System.out.println("Emprendedores en mapa: " + sistema.getMapaEmprendedores().size());
         
-        // ✅ CORRECCIÓN 1: Primero cargar desde el mapa principal
         if (!sistema.getMapaEmprendedores().isEmpty()) {
-            System.out.println("Cargando desde mapa principal...");
             for (Emprendedor emp : sistema.getMapaEmprendedores().values()) {
                 if (!tableView.getItems().contains(emp)) {
                     tableView.getItems().add(emp);
-                    System.out.println("  - Agregado desde mapa: " + emp.getNombre());
                 }
             }
         }
         
-        // ✅ CORRECCIÓN 2: Luego complementar desde bitácoras (por si hay desfases)
         for (Bitacora b : sistema.getBitacoras()) {
-            System.out.println("Bitácora " + b.getTipo() + ": " + b.getEmprendedores().size() + " emprendedores");
             for (Emprendedor emp : b.getEmprendedores()) {
                 if (!tableView.getItems().contains(emp)) {
                     tableView.getItems().add(emp);
-                    System.out.println("  - Agregado desde bitácora: " + emp.getNombre());
                 }
             }
         }
-        
-        System.out.println("Total en tabla: " + tableView.getItems().size());
-        
-        // ✅ AGREGAR: Mostrar mensaje si no hay datos
-        if (tableView.getItems().isEmpty()) {
-            mostrarError("Información", 
-                "No se encontraron emprendedores.\n" +
-                "Verifique que el sistema esté inicializado correctamente.\n" +
-                "Mapa: " + sistema.getMapaEmprendedores().size() + " emprendedores\n" +
-                "Bitácoras: " + contarEmprendedoresEnBitacoras() + " emprendedores");
-        }
     }
     
-    // ✅ NUEVO MÉTODO: Contar emprendedores en bitácoras
     private int contarEmprendedoresEnBitacoras() {
         int total = 0;
         for (Bitacora b : sistema.getBitacoras()) {
@@ -169,14 +148,9 @@ public class VentanaGestionEmprendedores extends VentanaBase {
         } else {
             tableView.getItems().clear();
             
-            // ✅ CORRECCIÓN: Buscar tanto en mapa como en bitácoras
-            System.out.println("Filtrando por: " + filtro);
-            
-            // Opción 1: Filtrar desde mapa usando el método del sistema
             List<Emprendedor> emprendedoresFiltrados = sistema.filtrarPorBitacora(filtro);
             tableView.getItems().addAll(emprendedoresFiltrados);
             
-            System.out.println("Emprendedores filtrados: " + emprendedoresFiltrados.size());
         }
     }
 
@@ -302,7 +276,6 @@ public class VentanaGestionEmprendedores extends VentanaBase {
             }
         }
 
-        System.out.println("Emprendedor movido de " + bitacoraOrigen + " a " + bitacoraDestino);
     }
 
     private void eliminarEmprendedor() {

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Bitacora {
     private String tipo;
-    private List<Emprendedor> emprendedores; //SIA1.5: 2da colección anidada
+    private List<Emprendedor> emprendedores; //2da colección anidada
     
     public Bitacora(String tipo) {
         this.tipo = tipo;
@@ -22,7 +22,7 @@ public class Bitacora {
         emprendedores.add(e);
     }
 
-    // SIA1.6: SOBRECARGA - buscar por RUT
+    // SOBRECARGA - buscar por RUT
     public Emprendedor buscar(String rut) {
         for (Emprendedor e : emprendedores) {
             if (e.getRut().equals(rut)) {
@@ -32,7 +32,7 @@ public class Bitacora {
         return null;
     }
 
-    // SIA1.6: SOBRECARGA - buscar por capital mínimo
+    // SOBRECARGA - buscar por capital mínimo
     public List<Emprendedor> buscar(double capitalMin) {
         List<Emprendedor> filtrados = new ArrayList<>();
         for (Emprendedor e : emprendedores) {
@@ -43,7 +43,7 @@ public class Bitacora {
         return filtrados;
     }
 
-    //SIA1.6: SOBRECARGA - buscar por cantidad de proyectos
+    //OBRECARGA - buscar por cantidad de proyectos
     public List<Emprendedor> buscar(int minProyectos) {
         List<Emprendedor> filtrados = new ArrayList<>();
         for (Emprendedor e : emprendedores) {

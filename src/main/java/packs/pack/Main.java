@@ -140,7 +140,7 @@ public class Main extends Application {
         primaryStage.show();
         
         // Evento de cierre con guardado robusto
-        primaryStage.setOnCloseRequest(event -> {
+        primaryStage.setOnCloseRequest((var event) -> {
             
             try {
                 int totalEmprendedores = sistema.getMapaEmprendedores().size();
@@ -149,35 +149,14 @@ public class Main extends Application {
                 
                 if (totalEmprendedores > 0) {
                     sistema.guardarEmprendedores("emprendedores.csv");
-                    
-                    // Verificar que se guardó correctamente
-                    File archivoEmp = new File("emprendedores.csv");
-                    if (archivoEmp.exists() && archivoEmp.length() > 0) {
-                    } else {
-                        System.err.println("ERROR: emprendedores.csv no se guardó correctamente");
-                    }
-                } else {
-                    System.out.println("No hay emprendedores para guardar");
-                }
+
+                } 
                 
                 if (totalInversores > 0) {
                     sistema.guardarInversores("inversores.csv");
-                    
-                    // Verificar que se guardó correctamente
-                    File archivoInv = new File("inversores.csv");
-                    if (archivoInv.exists() && archivoInv.length() > 0) {
-                        System.out.println("inversores.csv guardado exitosamente (" + archivoInv.length() + " bytes)");
-                    } else {
-                        System.err.println("ERROR: inversores.csv no se guardó correctamente");
-                    }
-                } else {
-                    System.out.println("No hay inversores para guardar");
                 }
                 
-                System.out.println("=== GUARDADO COMPLETADO ===\n");
-                
             } catch (Exception ex) {
-                System.err.println("ERROR CRÍTICO al guardar datos:");
                 ex.printStackTrace();
                 
                 // Mostrar alerta crítica al usuario

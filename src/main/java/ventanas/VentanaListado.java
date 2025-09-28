@@ -47,7 +47,6 @@ public class VentanaListado extends VentanaBase {
         stage.setScene(scene);
     }
 
-    // ✅ MÉTODO CORREGIDO: Crear tabla de emprendedores
     private VBox crearTablaEmprendedores() {
         VBox container = new VBox(10);
         container.setPadding(new Insets(10));
@@ -95,30 +94,24 @@ public class VentanaListado extends VentanaBase {
 
         tableView.getColumns().addAll(colNombre, colRut, colEmail, colCapital, colBitacora, colProyectos);
 
-        // ✅ MÉTODO PARA CARGAR DATOS DE EMPRENDEDORES
         Runnable cargarDatos = () -> {
             tableView.getItems().clear();
-            System.out.println("=== CARGANDO EMPRENDEDORES EN LISTADO ===");
             
             // Opción 1: Cargar desde mapa principal
             if (!sistema.getMapaEmprendedores().isEmpty()) {
-                System.out.println("Cargando desde mapa: " + sistema.getMapaEmprendedores().size());
                 for (Emprendedor emp : sistema.getMapaEmprendedores().values()) {
                     String bitacora = buscarBitacoraDelEmprendedor(emp);
                     tableView.getItems().add(new EmprendedorConBitacora(emp, bitacora));
                 }
             } else {
                 // Opción 2: Cargar desde bitácoras si el mapa está vacío
-                System.out.println("Mapa vacío, cargando desde bitácoras...");
                 for (Bitacora b : sistema.getBitacoras()) {
-                    System.out.println("Bitácora " + b.getTipo() + ": " + b.getEmprendedores().size() + " emprendedores");
                     for (Emprendedor e : b.getEmprendedores()) {
                         tableView.getItems().add(new EmprendedorConBitacora(e, b.getTipo()));
                     }
                 }
             }
             
-            System.out.println("Total cargado en tabla: " + tableView.getItems().size());
         };
         
         // Cargar datos iniciales
@@ -186,16 +179,12 @@ public class VentanaListado extends VentanaBase {
 
         tableView.getColumns().addAll(colNombre, colRut, colEmail, colCapital, colInversiones);
 
-        // ✅ MÉTODO PARA CARGAR DATOS DE INVERSORES
         Runnable cargarInversores = () -> {
             tableView.getItems().clear();
-            System.out.println("=== CARGANDO INVERSORES EN LISTADO ===");
             
             if (sistema.getInversores() != null && !sistema.getInversores().isEmpty()) {
                 tableView.getItems().addAll(sistema.getInversores());
-                System.out.println("Inversores cargados: " + sistema.getInversores().size());
             } else {
-                System.out.println("No hay inversores cargados en el sistema");
             }
         };
         
@@ -244,10 +233,10 @@ public class VentanaListado extends VentanaBase {
                 totalProyectos += emp.getProyectos().size();
             }
             
-            lblEmprendedores.setText("📊 Total Emprendedores: " + totalEmprendedores);
-            lblInversores.setText("💰 Total Inversores: " + totalInversores);
-            lblBitacoras.setText("📋 Total Bitácoras: " + totalBitacoras);
-            lblProyectos.setText("🚀 Total Proyectos: " + totalProyectos);
+            lblEmprendedores.setText(" Total Emprendedores: " + totalEmprendedores);
+            lblInversores.setText(" Total Inversores: " + totalInversores);
+            lblBitacoras.setText(" Total Bitácoras: " + totalBitacoras);
+            lblProyectos.setText(" Total Proyectos: " + totalProyectos);
             
             // Detalle por bitácoras
             StringBuilder detalleBitacoras = new StringBuilder();
@@ -258,11 +247,6 @@ public class VentanaListado extends VentanaBase {
                                 .append(" emprendedores\n");
             }
             
-            System.out.println("=== RESUMEN ACTUALIZADO ===");
-            System.out.println("Emprendedores: " + totalEmprendedores);
-            System.out.println("Inversores: " + totalInversores);
-            System.out.println("Proyectos: " + totalProyectos);
-            System.out.println(detalleBitacoras.toString());
         };
         
         // Actualizar inicialmente

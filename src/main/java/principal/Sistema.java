@@ -62,8 +62,6 @@ public class Sistema {
         }
         
         sincronizarDatos();
-        
-        mostrarEstadoBitacoras();
     }
     
     private void sincronizarDatos() {
@@ -101,12 +99,7 @@ public class Sistema {
             }
             indice++;
         }
-    }
-    
-    private void mostrarEstadoBitacoras() {
-        for (Bitacora b : bitacoras) {
-        }
-    }
+    }   
 
     // Método auxiliar para intentar cargar emprendedores CORREGIDO
     private boolean intentarCargarEmprendedores() {
@@ -146,7 +139,6 @@ public class Sistema {
 
                             Emprendedor emp = new Emprendedor(nombre, rut, email, capital);
 
-                            // ✅ CRÍTICO: Agregar proyectos por defecto
                             agregarProyectosPorDefecto(emp, tipoBitacora);
 
                             tempMapa.put(rut, emp);

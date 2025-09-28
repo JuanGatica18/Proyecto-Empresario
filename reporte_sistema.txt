@@ -1,7 +1,7 @@
 ====================================================
           REPORTE GENERAL DEL SISTEMA DE INVERSIÓN
 ====================================================
-Fecha de Reporte: Sat Sep 27 21:47:12 CLST 2025
+Fecha de Reporte: Sat Sep 27 22:14:15 CLST 2025
 
 --- RESUMEN GENERAL ---
 Total Emprendedores: 13
@@ -10,10 +10,9 @@ Total Bitácoras: 4
 
 --- DETALLE DE EMPRENDEDORES POR BITÁCORA ---
 >>> Bitácora: Tecnologia (Emprendedores: 4)
-  - Nombre: Laura Torres, RUT: 10101010-1, Email: laura.torres@smartedu.cl, Capital: 6000.0, Proyectos: 2
+  - Nombre: Laura Torres, RUT: 10101010-1, Email: laura.torres@smartedu.cl, Capital: 6000.0, Proyectos: 1
     Proyectos:
       * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
-      * pokemon (Inversión: $10000.0 | Riesgo: Bajo)
   - Nombre: Educa Chile, RUT: 33333333-3, Email: edu@edu.cl, Capital: 5000.0, Proyectos: 1
     Proyectos:
       * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
@@ -36,9 +35,10 @@ Total Bitácoras: 4
       * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
 
 >>> Bitácora: Educacion (Emprendedores: 3)
-  - Nombre: Juan Perez, RUT: 77777777-7, Email: juan.perez@foodtech.cl, Capital: 12000.0, Proyectos: 1
+  - Nombre: Juan Perez, RUT: 77777777-7, Email: juan.perez@foodtech.cl, Capital: 12000.0, Proyectos: 2
     Proyectos:
       * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+      * pokemon (Inversión: $30000.0 | Riesgo: Bajo)
   - Nombre: Pedro Silva, RUT: 99999999-9, Email: pedro.silva@medcare.cl, Capital: 30000.0, Proyectos: 1
     Proyectos:
       * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
@@ -61,7 +61,7 @@ Total Bitácoras: 4
 - Inversor: Inversor A | RUT: 44444444-4 | Email: inv.a@mail.com | Capital disponible: $50.000,00
 - Inversor: Inversor B | RUT: 55555555-5 | Email: inv.b@mail.com | Capital disponible: $98.001,00
 - Inversor: Roberto Investments | RUT: 20202020-2 | Email: roberto@investments.cl | Capital disponible: $75.000,00
-- Inversor: Claudia Capital | RUT: 21212121-2 | Email: claudia@capitalfund.cl | Capital disponible: $120.000,00
+- Inversor: Claudia Capital | RUT: 21212121-2 | Email: claudia@capitalfund.cl | Capital disponible: $100.000,00
 - Inversor: Venture Partners SA | RUT: 22222222-2 | Email: info@venturepartners.cl | Capital disponible: $200.000,00
 - Inversor: Angel Investor Group | RUT: 23232323-2 | Email: contact@angelgroup.cl | Capital disponible: $80.000,00
 - Inversor: Innovation Fund | RUT: 24242424-2 | Email: admin@innovationfund.cl | Capital disponible: $150.000,00
