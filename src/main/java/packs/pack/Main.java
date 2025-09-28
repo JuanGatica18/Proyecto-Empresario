@@ -4,16 +4,13 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import principal.Sistema;
-import ventanas.VentanaListado;
-import ventanas.VentanaInversor;
-import ventanas.VentanaMentor;
-import ventanas.VentanaEmprendedor;
-import ventanas.VentanaGestionEmprendedores;
-import ventanas.VentanaBusqueda;
-import excepciones.DatosInvalidosException;
+import ventanas.*;
+import java.io.File;
+import java.util.Optional;
 
 public class Main extends Application {
 
@@ -25,54 +22,29 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        // 1️⃣ Crear el sistema con manejo de errores
         sistema = new Sistema();
         
-        // Cargar datos con manejo de excepciones
-        try {
-            sistema.cargarEmprendedores("emprendedores.csv");
-            sistema.cargarMentores("mentores.csv");
-            sistema.cargarInversores("inversores.csv");
-        } catch (Exception e) {
-            mostrarAlerta("Advertencia", "Algunos archivos CSV no se pudieron cargar: " + e.getMessage());
-        }
+        // Inicialización inteligente que preserva datos
+        sistema.inicializarSistema();
 
-        // 2️⃣ Botones principales MEJORADOS
+        // Botones de la interfaz
         Button btnAgregarEmprendedor = new Button("Agregar Emprendedor");
-        Button btnAgregarMentor = new Button("Agregar Mentor");
-        Button btnAgregarInversor = new Button("Agregar Inversor");
         Button btnGestionEmprendedores = new Button("Gestionar Emprendedores");
         Button btnBuscar = new Button("Buscar por RUT");
+        Button btnFiltrar = new Button("Filtrar Emprendedores");
         Button btnMostrar = new Button("Mostrar Listado");
-        Button btnExportar = new Button("Exportar CSV");
-        Button btnReporte = new Button("Generar Reporte TXT");
-        Button btnFiltrar = new Button("Filtrar por Capital");
+        Button btnInvertir = new Button("Invertir en Proyectos");
+        Button btnAgregarInversor = new Button("Agregar Inversor");
+        Button btnReporte = new Button("Generar Reporte TXT"); 
+        Button btnGestionProyectos = new Button("Gestión de Proyectos");
 
-        // 3️⃣ Eventos MEJORADOS con manejo de excepciones
+        // Eventos de botones
         btnAgregarEmprendedor.setOnAction(e -> {
             try {
                 VentanaEmprendedor ventana = new VentanaEmprendedor(sistema);
                 ventana.mostrar();
             } catch (Exception ex) {
-                mostrarAlerta("Error", "No se pudo abrir la ventana: " + ex.getMessage());
-            }
-        });
-
-        btnAgregarMentor.setOnAction(e -> {
-            try {
-                VentanaMentor ventana = new VentanaMentor(sistema);
-                ventana.mostrar();
-            } catch (Exception ex) {
-                mostrarAlerta("Error", "No se pudo abrir la ventana: " + ex.getMessage());
-            }
-        });
-
-        btnAgregarInversor.setOnAction(e -> {
-            try {
-                VentanaInversor ventana = new VentanaInversor(sistema);
-                ventana.mostrar();
-            } catch (Exception ex) {
-                mostrarAlerta("Error", "No se pudo abrir la ventana: " + ex.getMessage());
+                mostrarAlerta("Error", "Error al abrir ventana: " + ex.getMessage());
             }
         });
 
@@ -81,77 +53,155 @@ public class Main extends Application {
                 VentanaGestionEmprendedores ventana = new VentanaGestionEmprendedores(sistema);
                 ventana.mostrar();
             } catch (Exception ex) {
-                mostrarAlerta("Error", "No se pudo abrir la ventana de gestión: " + ex.getMessage());
+                mostrarAlerta("Error", "Error al abrir ventana: " + ex.getMessage());
             }
         });
-
+        
         btnBuscar.setOnAction(e -> {
             try {
                 VentanaBusqueda ventana = new VentanaBusqueda(sistema);
                 ventana.mostrar();
             } catch (Exception ex) {
-                mostrarAlerta("Error", "No se pudo abrir la ventana de búsqueda: " + ex.getMessage());
-            }
-        });
-
-        btnMostrar.setOnAction(e -> {
-            try {
-                VentanaListado ventana = new VentanaListado(sistema);
-                ventana.mostrar();
-            } catch (Exception ex) {
-                mostrarAlerta("Error", "No se pudo abrir el listado: " + ex.getMessage());
-            }
-        });
-
-        btnExportar.setOnAction(e -> {
-            try {
-                sistema.guardarEmprendedores("src/main/resources/emprendedores.csv");
-                sistema.guardarMentores("src/main/resources/mentores.csv");
-                sistema.guardarInversores("src/main/resources/inversores.csv");
-                mostrarAlerta("Éxito", "Datos exportados correctamente a CSV");
-            } catch (Exception ex) {
-                mostrarAlerta("Error", "Error al exportar: " + ex.getMessage());
-            }
-        });
-
-        btnReporte.setOnAction(e -> {
-            try {
-                sistema.generarReporteTxt("reporte_sistema.txt");
-                mostrarAlerta("Éxito", "Reporte TXT generado: reporte_sistema.txt");
-            } catch (Exception ex) {
-                mostrarAlerta("Error", "Error al generar reporte: " + ex.getMessage());
+                mostrarAlerta("Error", "Error al abrir ventana: " + ex.getMessage());
             }
         });
 
         btnFiltrar.setOnAction(e -> {
-            try {
-                // Ejemplo de uso del filtrado (SIA2.5)
-                var emprendedoresFiltrados = sistema.filtrarEmprendedoresPorCapital(5000);
-                mostrarAlerta("Filtrado", 
-                    "Emprendedores con capital >= $5000: " + emprendedoresFiltrados.size());
+             try {
+                VentanaFiltros ventana = new VentanaFiltros(sistema);
+                ventana.mostrar();
             } catch (Exception ex) {
-                mostrarAlerta("Error", "Error al filtrar: " + ex.getMessage());
+                mostrarAlerta("Error", "Error al abrir ventana: " + ex.getMessage());
+            }
+        });
+        
+        btnInvertir.setOnAction(e -> {
+             try {
+                VentanaInversion ventana = new VentanaInversion(sistema);
+                ventana.mostrar();
+            } catch (Exception ex) {
+                mostrarAlerta("Error", "Error al abrir ventana: " + ex.getMessage());
             }
         });
 
-        // 4️⃣ Layout principal MEJORADO
+        btnMostrar.setOnAction(e -> {
+             try {
+                VentanaListado ventana = new VentanaListado(sistema);
+                ventana.mostrar();
+            } catch (Exception ex) {
+                mostrarAlerta("Error", "Error al abrir listado: " + ex.getMessage());
+            }
+        });
+        
+        btnAgregarInversor.setOnAction(e -> {
+             try {
+                VentanaInversor ventana = new VentanaInversor(sistema);
+                ventana.mostrar();
+            } catch (Exception ex) {
+                mostrarAlerta("Error", "Error al abrir ventana: " + ex.getMessage());
+            }
+        });
+        
+        btnReporte.setOnAction(e -> {
+            try {
+                sistema.generarReporteTxt("reporte_sistema.txt");
+                mostrarAlerta("Exito", "Reporte generado: reporte_sistema.txt");
+            } catch (Exception ex) {
+                mostrarAlerta("Error", "Error al generar reporte: " + ex.getMessage());
+            }
+        });
+        btnGestionProyectos.setOnAction(e -> {
+            try {
+                VentanaProyectos ventana = new VentanaProyectos(sistema);
+                ventana.mostrar();
+            } catch (Exception ex) {
+                mostrarAlerta("Error", "Error al abrir ventana de proyectos: " + ex.getMessage());
+            }
+        });
+
+        // Layout principal
         VBox root = new VBox(10);
         root.setPadding(new javafx.geometry.Insets(20));
-        
-        // Agrupar botones por funcionalidad
         root.getChildren().addAll(
-            new javafx.scene.control.Label("Gestión Básica:"),
-            btnAgregarEmprendedor, btnAgregarMentor, btnAgregarInversor,
-            new javafx.scene.control.Label("Gestión Avanzada:"),
-            btnGestionEmprendedores, btnBuscar, btnFiltrar,
-            new javafx.scene.control.Label("Reportes:"),
-            btnMostrar, btnExportar, btnReporte
+            btnAgregarEmprendedor,
+            btnGestionEmprendedores, 
+            btnBuscar,
+            btnFiltrar,
+            btnGestionProyectos,
+            btnInvertir,
+            btnAgregarInversor,
+            btnMostrar,
+            btnReporte
         );
 
-        Scene scene = new Scene(root, 350, 550);
-        primaryStage.setTitle("Sistema de Gestión de Emprendedores - SIA");
+        Scene scene = new Scene(root, 300, 450); 
+        primaryStage.setTitle("Sistema de Emprendedores - SIA");
         primaryStage.setScene(scene);
         primaryStage.show();
+        
+        // Evento de cierre con guardado robusto
+        primaryStage.setOnCloseRequest(event -> {
+            System.out.println("\n=== GUARDANDO DATOS ANTES DE CERRAR ===");
+            
+            try {
+                int totalEmprendedores = sistema.getMapaEmprendedores().size();
+                int totalInversores = sistema.getInversores().size();
+                
+                System.out.println("Emprendedores a guardar: " + totalEmprendedores);
+                System.out.println("Inversores a guardar: " + totalInversores);
+                
+                if (totalEmprendedores > 0) {
+                    sistema.guardarEmprendedores("emprendedores.csv");
+                    
+                    // Verificar que se guardó correctamente
+                    File archivoEmp = new File("emprendedores.csv");
+                    if (archivoEmp.exists() && archivoEmp.length() > 0) {
+                        System.out.println("emprendedores.csv guardado exitosamente (" + archivoEmp.length() + " bytes)");
+                    } else {
+                        System.err.println("ERROR: emprendedores.csv no se guardó correctamente");
+                    }
+                } else {
+                    System.out.println("No hay emprendedores para guardar");
+                }
+                
+                if (totalInversores > 0) {
+                    sistema.guardarInversores("inversores.csv");
+                    
+                    // Verificar que se guardó correctamente
+                    File archivoInv = new File("inversores.csv");
+                    if (archivoInv.exists() && archivoInv.length() > 0) {
+                        System.out.println("inversores.csv guardado exitosamente (" + archivoInv.length() + " bytes)");
+                    } else {
+                        System.err.println("ERROR: inversores.csv no se guardó correctamente");
+                    }
+                } else {
+                    System.out.println("No hay inversores para guardar");
+                }
+                
+                System.out.println("=== GUARDADO COMPLETADO ===\n");
+                
+            } catch (Exception ex) {
+                System.err.println("ERROR CRÍTICO al guardar datos:");
+                ex.printStackTrace();
+                
+                // Mostrar alerta crítica al usuario
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Error Crítico al Guardar");
+                alert.setHeaderText("No se pudieron guardar los datos");
+                alert.setContentText("Error: " + ex.getMessage() + 
+                                    "\n\nLos datos se perderán si cierra la aplicación." +
+                                    "\n¿Desea intentar guardar manualmente o cerrar sin guardar?");
+                
+                ButtonType btnIntentar = new ButtonType("Intentar de Nuevo");
+                ButtonType btnCerrar = new ButtonType("Cerrar Sin Guardar");
+                alert.getButtonTypes().setAll(btnIntentar, btnCerrar);
+                
+                Optional<ButtonType> resultado = alert.showAndWait();
+                if (resultado.isPresent() && resultado.get() == btnIntentar) {
+                    event.consume(); // Cancelar el cierre
+                }
+            }
+        });
     }
 
     private void mostrarAlerta(String titulo, String mensaje) {

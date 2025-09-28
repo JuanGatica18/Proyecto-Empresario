@@ -1,24 +1,84 @@
-=== REPORTE DEL SISTEMA ===
-Generado: Sat Sep 27 15:04:10 CLST 2025
+====================================================
+          REPORTE GENERAL DEL SISTEMA DE INVERSIÓN
+====================================================
+Fecha de Reporte: Sat Sep 27 20:37:14 CLST 2025
 
-=== EMPRENDEDORES ===
-Bitácora: Tecnología
+--- RESUMEN GENERAL ---
+Total Emprendedores: 11
+Total Inversores: 10
+Total Bitácoras: 4
 
-Bitácora: Salud
-- juan | RUT: 22119441-1 | Capital: $1000.0 | Proyectos: 0
+--- DETALLE DE EMPRENDEDORES POR BITÁCORA ---
+>>> Bitácora: Tecnologia (Emprendedores: 4)
+  - Nombre: Juan Perez, RUT: 11111111-1, Email: juan.perez@tech.cl, Capital: 15000.0, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
+  - Nombre: Carlos Lopez, RUT: 55555555-5, Email: carlos.lopez@innovate.cl, Capital: 30000.25, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
+  - Nombre: Diego Torres, RUT: 99999999-9, Email: diego.torres@software.cl, Capital: 45000.0, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
+  - Nombre: pedro, RUT: 10497061-2, Email: pedro@gmail.com, Capital: 10000.0, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
 
-Bitácora: Educación
+>>> Bitácora: Salud (Emprendedores: 3)
+  - Nombre: Maria Gonzalez, RUT: 22222222-2, Email: maria.gonzalez@health.cl, Capital: 25000.5, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
+  - Nombre: Laura Fernandez, RUT: 66666666-6, Email: laura.fernandez@medical.cl, Capital: 18000.5, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
+  - Nombre: Valentina Castro, RUT: 10101010-1, Email: valentina.castro@wellness.cl, Capital: 35000.25, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
 
-Bitácora: Alimentos
+>>> Bitácora: Educacion (Emprendedores: 2)
+  - Nombre: Pedro Martinez, RUT: 33333333-3, Email: pedro.martinez@edu.cl, Capital: 8000.75, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
+  - Nombre: Roberto Sanchez, RUT: 77777777-7, Email: roberto.sanchez@learning.cl, Capital: 6500.0, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
 
-Bitácora: Manufactura
+>>> Bitácora: Alimentos (Emprendedores: 2)
+  - Nombre: Ana Rodriguez, RUT: 44444444-4, Email: ana.rodriguez@food.cl, Capital: 12000.0, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
+  - Nombre: Carmen Silva, RUT: 88888888-8, Email: carmen.silva@organic.cl, Capital: 22000.75, Proyectos: 0
+    Proyectos:
+      (No tiene proyectos)
 
-=== MENTORES ===
-
-=== INVERSORES ===
-
-=== TOTALES ===
-Emprendedores: 1
-Mentores: 0
-Inversores: 0
-Bitácoras: 5
+--- DETALLE DE INVERSORES ---
+- Inversor: Maria Rodriguez | RUT: 12345678-9 | Email: maria.rodriguez@inversiones.cl | Capital disponible: $75.000,50
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Carlos Mendoza | RUT: 98765432-1 | Email: carlos.mendoza@capital.cl | Capital disponible: $120.000,00
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Ana Gutierrez | RUT: 11223344-5 | Email: ana.gutierrez@financiera.cl | Capital disponible: $95.000,75
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Roberto Silva | RUT: 55667788-2 | Email: roberto.silva@ventures.cl | Capital disponible: $200.000,00
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Patricia Lopez | RUT: 33445566-8 | Email: patricia.lopez@angel.cl | Capital disponible: $45.000,25
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Diego Ramirez | RUT: 77889900-3 | Email: diego.ramirez@investment.cl | Capital disponible: $150.000,00
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Camila Torres | RUT: 22334455-6 | Email: camila.torres@funding.cl | Capital disponible: $85.000,50
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Fernando Castro | RUT: 66778899-4 | Email: fernando.castro@equity.cl | Capital disponible: $110.000,75
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Sofia Martinez | RUT: 44556677-7 | Email: sofia.martinez@capital.com | Capital disponible: $65.000,00
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+- Inversor: Alejandro Vega | RUT: 88990011-0 | Email: alejandro.vega@investor.cl | Capital disponible: $175.000,25
+  Historial de Inversiones:
+    (Sin inversiones registradas)
+====================================================

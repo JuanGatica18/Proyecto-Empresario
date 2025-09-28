@@ -22,6 +22,9 @@ public class VentanaEmprendedor extends VentanaBase {
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(20));
+        
+        Label lblTitulo = new Label("REGISTRO DE NUEVO EMPRENDEDOR");
+        lblTitulo.setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
 
         // Campos del formulario
         Label lblNombre = new Label("Nombre:");
@@ -42,7 +45,8 @@ public class VentanaEmprendedor extends VentanaBase {
 
         Label lblTipo = new Label("Tipo de Bitácora:");
         ComboBox<String> cbTipo = new ComboBox<>();
-        cbTipo.getItems().addAll("Tecnología", "Salud", "Educación", "Alimentos", "Manufactura");
+        // ✅ CORRECCIÓN: Agregar los tipos correctos desde el sistema
+        sistema.getBitacoras().forEach(b -> cbTipo.getItems().add(b.getTipo()));
         cbTipo.setPromptText("Seleccione tipo");
 
         Button btnAgregar = new Button("Agregar Emprendedor");
@@ -50,27 +54,35 @@ public class VentanaEmprendedor extends VentanaBase {
 
         btnAgregar.setOnAction(e -> {
             try {
+                // 1. Validar campos
                 if (validarCampos(tfNombre.getText(), tfRut.getText(), tfEmail.getText(), 
                                  tfCapital.getText(), cbTipo.getValue())) {
                     
                     String nombre = tfNombre.getText().trim();
                     String rut = tfRut.getText().trim();
                     String email = tfEmail.getText().trim();
-                    double capital = Double.parseDouble(tfCapital.getText().trim());
+                    double capital = Double.parseDouble(tfCapital.getText().trim()); 
                     String tipo = cbTipo.getValue();
 
+                    // ✅ CORRECCIÓN: Constructor correcto (sin el parámetro adicional)
                     Emprendedor eNuevo = new Emprendedor(nombre, rut, email, capital);
-                    sistema.agregarEmprendedor(tipo, eNuevo);
+                    
+                    // ✅ CORRECCIÓN: Orden correcto de parámetros
+                    sistema.agregarEmprendedor(eNuevo, tipo);
 
                     mostrarMensaje("Éxito", "Emprendedor agregado correctamente a la bitácora: " + tipo);
                     limpiarCampos(tfNombre, tfRut, tfEmail, tfCapital, cbTipo);
                 }
             } catch (NumberFormatException ex) {
-                mostrarError("Error", "El capital debe ser un número válido.");
+                mostrarError("Error de Capital", "El capital debe ser un número válido (ej: 1500.0).");
             } catch (DatosInvalidosException ex) {
-                mostrarError("Error", ex.getMessage());
+                mostrarError("Error de Registro", ex.getMessage());
             }
         });
+
+        // Organizar en VBox para el título y luego en GridPane para el formulario
+        VBox panelPrincipal = new VBox(15, lblTitulo, grid);
+        panelPrincipal.setPadding(new Insets(20));
 
         // Organizar en grid
         grid.add(lblNombre, 0, 0);
@@ -85,7 +97,7 @@ public class VentanaEmprendedor extends VentanaBase {
         grid.add(cbTipo, 1, 4);
         grid.add(btnAgregar, 0, 5, 2, 1);
 
-        Scene scene = new Scene(grid, 400, 350);
+        Scene scene = new Scene(panelPrincipal, 440, 430);
         stage.setScene(scene);
     }
 
@@ -114,7 +126,7 @@ public class VentanaEmprendedor extends VentanaBase {
     }
 
     private void limpiarCampos(TextField nombre, TextField rut, TextField email, 
-                              TextField capital, ComboBox<String> tipo) {
+                               TextField capital, ComboBox<String> tipo) {
         nombre.clear();
         rut.clear();
         email.clear();

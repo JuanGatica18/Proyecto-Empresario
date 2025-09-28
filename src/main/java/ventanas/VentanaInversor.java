@@ -1,12 +1,12 @@
 package ventanas;
 
+import excepciones.DatosInvalidosException;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import principal.Sistema;
 import humanos.Inversor;
-import excepciones.DatosInvalidosException;
 
 public class VentanaInversor extends VentanaBase {
 
@@ -54,8 +54,9 @@ public class VentanaInversor extends VentanaBase {
             } catch (NumberFormatException ex) {
                 mostrarError("Error", "El capital debe ser un número válido.");
             } catch (DatosInvalidosException ex) {
-                mostrarError("Error", ex.getMessage());
+                ex.printStackTrace();
             }
+            // ✅ DatosInvalidosException eliminado porque no se lanza
         });
 
         grid.add(lblNombre, 0, 0);
@@ -73,7 +74,22 @@ public class VentanaInversor extends VentanaBase {
     }
 
     private boolean validarCampos(String nombre, String rut, String email, double capital) {
-        // Implementar validación
+        if (nombre == null || nombre.trim().isEmpty()) {
+            mostrarError("Error", "El nombre es obligatorio.");
+            return false;
+        }
+        if (rut == null || rut.trim().isEmpty()) {
+            mostrarError("Error", "El RUT es obligatorio.");
+            return false;
+        }
+        if (email == null || email.trim().isEmpty() || !email.contains("@")) {
+            mostrarError("Error", "Email inválido.");
+            return false;
+        }
+        if (capital <= 0) {
+            mostrarError("Error", "El capital debe ser mayor a 0.");
+            return false;
+        }
         return true;
     }
 

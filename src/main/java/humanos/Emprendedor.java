@@ -8,6 +8,7 @@ package humanos;
 import principal.Proyecto;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Emprendedor extends Persona{
     
@@ -15,13 +16,12 @@ public class Emprendedor extends Persona{
     private List<Proyecto> proyectos;
     
     // constructor vacío
-    public Emprendedor() {
-        super();
-        this.capital = 0.0;
+    public Emprendedor(String nombre, String rut, String email, double capital, String tipoBitacora) { 
+        super(nombre, rut, email); 
+        this.capital = capital;
         this.proyectos = new ArrayList<>();
     }
 
-    // Constructor con parámetros
     public Emprendedor(String nombre, String rut, String email, double capital) {
         super(nombre, rut, email); 
         this.capital = capital;
@@ -60,7 +60,17 @@ public class Emprendedor extends Persona{
         }
         return sb.toString();
     }
-
+    // 🆕 Método para exportar a CSV
+    public String toCSVString() {
+        // Generar la cadena de proyectos separada por |
+        String proyectosStr = proyectos.stream()
+            .map(Proyecto::toCSVString)
+            .collect(Collectors.joining("|"));
+        
+        // Formato: nombre,rut,email,capital,"proyectos"
+        return String.format("%s,%s,%s,%.2f,\"%s\"", 
+                             getNombre(), getRut(), getEmail(), capital, proyectosStr);
+    }
     // Sobrescritura de mostrarInfo()
     @Override
     public String mostrarInfo() {
