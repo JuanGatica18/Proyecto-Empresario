@@ -141,14 +141,11 @@ public class Main extends Application {
         
         // Evento de cierre con guardado robusto
         primaryStage.setOnCloseRequest(event -> {
-            System.out.println("\n=== GUARDANDO DATOS ANTES DE CERRAR ===");
             
             try {
                 int totalEmprendedores = sistema.getMapaEmprendedores().size();
                 int totalInversores = sistema.getInversores().size();
                 
-                System.out.println("Emprendedores a guardar: " + totalEmprendedores);
-                System.out.println("Inversores a guardar: " + totalInversores);
                 
                 if (totalEmprendedores > 0) {
                     sistema.guardarEmprendedores("emprendedores.csv");
@@ -156,7 +153,6 @@ public class Main extends Application {
                     // Verificar que se guardó correctamente
                     File archivoEmp = new File("emprendedores.csv");
                     if (archivoEmp.exists() && archivoEmp.length() > 0) {
-                        System.out.println("emprendedores.csv guardado exitosamente (" + archivoEmp.length() + " bytes)");
                     } else {
                         System.err.println("ERROR: emprendedores.csv no se guardó correctamente");
                     }

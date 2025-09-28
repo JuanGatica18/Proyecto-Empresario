@@ -40,12 +40,10 @@ public class Sistema {
 
     // MÉTODO PRINCIPAL DE INICIALIZACIÓN - VERSIÓN ROBUSTA CORREGIDA
     public void inicializarSistema() {
-        System.out.println("=== INICIALIZANDO SISTEMA ===");
         
         // 1. SIEMPRE cargar estructura de bitácoras primero
         if (bitacoras.isEmpty()) {
             cargarEstructuraInicialBitacoras();
-            System.out.println("Estructura de bitácoras inicializada");
         }
         
         // 2. Intentar cargar emprendedores existentes
@@ -56,26 +54,19 @@ public class Sistema {
         
         // 4. Si no hay datos, cargar por defecto
         if (!emprendedoresExistentes && !inversoresExistentes) {
-            System.out.println("No hay datos previos, cargando datos de ejemplo");
             cargarDatosIniciales();
         } else if (!emprendedoresExistentes) {
-            System.out.println("Cargando emprendedores de ejemplo");
             cargarEmprendedoresEjemplo();
         } else if (!inversoresExistentes) {
-            System.out.println("Cargando inversores de ejemplo");
             cargarInversoresEjemplo();
         }
         
         sincronizarDatos();
         
-        System.out.println("=== SISTEMA INICIALIZADO ===");
-        System.out.println("Emprendedores totales: " + mapaEmprendedores.size());
-        System.out.println("Inversores totales: " + inversores.size());
         mostrarEstadoBitacoras();
     }
     
     private void sincronizarDatos() {
-        System.out.println("=== SINCRONIZANDO DATOS ===");
         
         // Si hay emprendedores en el mapa pero no en bitácoras, distribuirlos
         if (!mapaEmprendedores.isEmpty()) {
@@ -83,10 +74,7 @@ public class Sistema {
             for (Bitacora b : bitacoras) {
                 emprendedoresEnBitacoras += b.getEmprendedores().size();
             }
-            
-            System.out.println("Emprendedores en mapa: " + mapaEmprendedores.size());
-            System.out.println("Emprendedores en bitácoras: " + emprendedoresEnBitacoras);
-            
+                        
             if (emprendedoresEnBitacoras == 0) {
                 // Redistribuir emprendedores del mapa a las bitácoras
                 redistribuirEmprendedores();
@@ -95,7 +83,6 @@ public class Sistema {
     }
     
     private void redistribuirEmprendedores() {
-        System.out.println("Redistribuyendo emprendedores a bitácoras...");
         
         String[] tiposBitacora = {"Tecnologia", "Salud", "Educacion", "Alimentos"};
         int indice = 0;
@@ -108,7 +95,6 @@ public class Sistema {
                 if (b.getTipo().equals(tipoBitacora)) {
                     if (!b.getEmprendedores().contains(emp)) {
                         b.agregarEmprendedor(emp);
-                        System.out.println("Emprendedor " + emp.getNombre() + " agregado a bitácora " + tipoBitacora);
                     }
                     break;
                 }
@@ -118,9 +104,7 @@ public class Sistema {
     }
     
     private void mostrarEstadoBitacoras() {
-        System.out.println("--- Estado de Bitácoras ---");
         for (Bitacora b : bitacoras) {
-            System.out.println(b.getTipo() + ": " + b.getEmprendedores().size() + " emprendedores");
         }
     }
 
@@ -129,7 +113,6 @@ public class Sistema {
         try {
             File archivo = new File("emprendedores.csv");
             if (!archivo.exists() || archivo.length() == 0) {
-                System.out.println("emprendedores.csv no existe o está vacío");
                 return false;
             }
 
@@ -139,7 +122,6 @@ public class Sistema {
                 String linea;
                 String encabezado = br.readLine(); // Saltar encabezado
                 if (encabezado == null) {
-                    System.out.println("Archivo CSV vacío");
                     return false;
                 }
                 
@@ -170,7 +152,6 @@ public class Sistema {
                             tempMapa.put(rut, emp);
                             contadorCargados++;
                             
-                            System.out.println("Cargado: " + nombre + " (" + rut + ")");
                         } catch (NumberFormatException ex) {
                             System.err.println("Error de formato en línea: " + linea);
                         }
@@ -182,7 +163,6 @@ public class Sistema {
                     mapaEmprendedores.clear();
                     mapaEmprendedores.putAll(tempMapa);
 
-                    System.out.println("Emprendedores cargados desde CSV: " + contadorCargados);
                     return true;
                 }
             }
@@ -199,7 +179,6 @@ public class Sistema {
         try {
             File archivo = new File("inversores.csv");
             if (!archivo.exists() || archivo.length() == 0) {
-                System.out.println("inversores.csv no existe o está vacío");
                 return false;
             }
             
@@ -234,7 +213,6 @@ public class Sistema {
                 if (contadorCargados > 0) {
                     inversores.clear();
                     inversores.addAll(tempInversores);
-                    System.out.println("Inversores cargados desde CSV: " + contadorCargados);
                     return true;
                 }
             }
@@ -254,7 +232,6 @@ public class Sistema {
 
     private void cargarEmprendedoresEjemplo() {
         try {
-            System.out.println("Cargando emprendedores de ejemplo...");
             
             // Limpiar datos existentes
             mapaEmprendedores.clear();
@@ -279,7 +256,6 @@ public class Sistema {
             agregarEmprendedor(emp3, "Educacion");
             agregarEmprendedor(emp4, "Alimentos");
             
-            System.out.println("Emprendedores de ejemplo cargados: " + mapaEmprendedores.size());
             
         } catch (DatosInvalidosException ex) {
             System.err.println("Error cargando emprendedores de ejemplo: " + ex.getMessage());
@@ -291,7 +267,6 @@ public class Sistema {
         inversores.clear();
         inversores.add(new Inversor("Inversor A", "44444444-4", "inv.a@mail.com", 50000.0));
         inversores.add(new Inversor("Inversor B", "55555555-5", "inv.b@mail.com", 100000.0));
-        System.out.println("Inversores de ejemplo cargados: " + inversores.size());
     }
 
     public void agregarEmprendedor(Emprendedor emprendedor, String tipoBitacora) throws DatosInvalidosException {
@@ -312,7 +287,6 @@ public class Sistema {
             bitacoraDestino.agregarEmprendedor(emprendedor);
             mapaEmprendedores.put(emprendedor.getRut(), emprendedor);
             
-            System.out.println("Emprendedor " + emprendedor.getNombre() + " agregado a " + tipoBitacora);
         } else {
             throw new DatosInvalidosException("El tipo de bitácora '" + tipoBitacora + "' no existe.");
         }
@@ -397,7 +371,6 @@ public class Sistema {
                 pw.printf("%s,%s,%s,%.2f,%s%n",
                           e.getNombre(), e.getRut(), e.getEmail(), e.getCapital(), tipoBitacora);
             }
-            System.out.println("Emprendedores guardados correctamente en " + nombreArchivo);
 
         } catch (IOException ex) {
             System.err.println("Error al guardar Emprendedores: " + ex.getMessage());
@@ -423,7 +396,6 @@ public class Sistema {
                 pw.printf("%s,%s,%s,%.2f%n",
                           i.getNombre(), i.getRut(), i.getEmail(), i.getCapitalDisponible());
             }
-            System.out.println("Inversores guardados correctamente en " + nombreArchivo);
 
         } catch (IOException ex) {
             System.err.println("Error al guardar Inversores: " + ex.getMessage());
@@ -469,7 +441,6 @@ public class Sistema {
                 writer.write("- " + i.mostrarInfo() + "\n");
             }
             writer.write("====================================================\n");
-            System.out.println("Reporte generado: " + nombreArchivo);
 
         } catch (IOException ex) {
             System.err.println("Error al generar reporte TXT: " + ex.getMessage());
