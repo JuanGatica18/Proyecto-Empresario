@@ -45,7 +45,7 @@ public class VentanaEmprendedor extends VentanaBase {
 
         Label lblTipo = new Label("Tipo de Bitácora:");
         ComboBox<String> cbTipo = new ComboBox<>();
-        // ✅ CORRECCIÓN: Agregar los tipos correctos desde el sistema
+        //  Agregar los tipos correctos desde el sistema
         sistema.getBitacoras().forEach(b -> cbTipo.getItems().add(b.getTipo()));
         cbTipo.setPromptText("Seleccione tipo");
 
@@ -64,10 +64,10 @@ public class VentanaEmprendedor extends VentanaBase {
                     double capital = Double.parseDouble(tfCapital.getText().trim()); 
                     String tipo = cbTipo.getValue();
 
-                    // ✅ CORRECCIÓN: Constructor correcto (sin el parámetro adicional)
+                    // Constructor correcto (sin el parámetro adicional)
                     Emprendedor eNuevo = new Emprendedor(nombre, rut, email, capital);
                     
-                    // ✅ CORRECCIÓN: Orden correcto de parámetros
+                    // Orden correcto de parámetros
                     sistema.agregarEmprendedor(eNuevo, tipo);
 
                     mostrarMensaje("Éxito", "Emprendedor agregado correctamente a la bitácora: " + tipo);

@@ -70,7 +70,7 @@ public class VentanaGestionEmprendedores extends VentanaBase {
         btnFiltrar.setOnAction(e -> filtrarEmprendedores());
         btnEditar.setOnAction(e -> editarEmprendedor());
         btnEliminar.setOnAction(e -> eliminarEmprendedor());
-        btnRefrescar.setOnAction(e -> cargarTodosEmprendedores()); // ✅ NUEVO EVENTO
+        btnRefrescar.setOnAction(e -> cargarTodosEmprendedores()); // 
 
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);

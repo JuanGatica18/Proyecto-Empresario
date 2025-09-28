@@ -130,7 +130,7 @@ public class VentanaListado extends VentanaBase {
         return container;
     }
     
-    // ✅ MÉTODO AUXILIAR: Buscar bitácora del emprendedor
+    //   Buscar bitácora del emprendedor
     private String buscarBitacoraDelEmprendedor(Emprendedor emprendedor) {
         for (Bitacora b : sistema.getBitacoras()) {
             if (b.getEmprendedores().contains(emprendedor)) {
@@ -140,7 +140,7 @@ public class VentanaListado extends VentanaBase {
         return "No asignada"; // Si no se encuentra en ninguna bitácora
     }
 
-    // ✅ MÉTODO CORREGIDO: Crear tabla de inversores
+    //Crear tabla de inversores
     private VBox crearTablaInversores() {
         VBox container = new VBox(10);
         container.setPadding(new Insets(10));
@@ -204,7 +204,7 @@ public class VentanaListado extends VentanaBase {
         return container;
     }
 
-    // ✅ MÉTODO MEJORADO: Panel de resumen con más detalles
+    // Panel de resumen con más detalles
     private VBox crearPanelResumen() {
         VBox panel = new VBox(15);
         panel.setPadding(new Insets(20));
@@ -275,7 +275,6 @@ public class VentanaListado extends VentanaBase {
         return panel;
     }
     
-    // ✅ CLASE AUXILIAR: Mantener la clase EmprendedorConBitacora
     public static class EmprendedorConBitacora {
         private final Emprendedor emprendedor;
         private final String tipoBitacora;

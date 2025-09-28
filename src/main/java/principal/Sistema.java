@@ -38,7 +38,7 @@ public class Sistema {
         }
     }
 
-    // MÉTODO PRINCIPAL DE INICIALIZACIÓN - VERSIÓN ROBUSTA CORREGIDA
+   
     public void inicializarSistema() {
         
         // 1. SIEMPRE cargar estructura de bitácoras primero
@@ -101,7 +101,7 @@ public class Sistema {
         }
     }   
 
-    // Método auxiliar para intentar cargar emprendedores CORREGIDO
+    
     private boolean intentarCargarEmprendedores() {
         try {
             File archivo = new File("emprendedores.csv");
@@ -166,7 +166,7 @@ public class Sistema {
         return false;
     }
 
-    // Método auxiliar para intentar cargar inversores SIN limpiar datos existentes
+  
     private boolean intentarCargarInversores() {
         try {
             File archivo = new File("inversores.csv");

@@ -56,7 +56,6 @@ public class VentanaInversor extends VentanaBase {
             } catch (DatosInvalidosException ex) {
                 ex.printStackTrace();
             }
-            // ✅ DatosInvalidosException eliminado porque no se lanza
         });
 
         grid.add(lblNombre, 0, 0);
