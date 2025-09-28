@@ -11,6 +11,8 @@ import humanos.Emprendedor;
 import humanos.Inversor;
 import principal.Bitacora;
 
+import java.util.List;
+
 public class VentanaListado extends VentanaBase {
 
     private TabPane tabPane;
@@ -41,52 +43,121 @@ public class VentanaListado extends VentanaBase {
         BorderPane root = new BorderPane();
         root.setCenter(tabPane);
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 900, 650);
         stage.setScene(scene);
     }
 
-    private TableView<EmprendedorConBitacora> crearTablaEmprendedores() {
+    // ✅ MÉTODO CORREGIDO: Crear tabla de emprendedores
+    private VBox crearTablaEmprendedores() {
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(10));
+        
+        // Título y botón refrescar
+        Label lblTitulo = new Label("LISTADO DE EMPRENDEDORES");
+        lblTitulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        
+        Button btnRefrescar = new Button("Refrescar Datos");
+        btnRefrescar.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
+        
         TableView<EmprendedorConBitacora> tableView = new TableView<>();
 
         TableColumn<EmprendedorConBitacora, String> colNombre = new TableColumn<>("Nombre");
         colNombre.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEmprendedor().getNombre()));
+        colNombre.setPrefWidth(150);
 
         TableColumn<EmprendedorConBitacora, String> colRut = new TableColumn<>("RUT");
         colRut.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEmprendedor().getRut()));
+        colRut.setPrefWidth(100);
 
         TableColumn<EmprendedorConBitacora, String> colEmail = new TableColumn<>("Email");
         colEmail.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getEmprendedor().getEmail()));
+        colEmail.setPrefWidth(200);
 
         TableColumn<EmprendedorConBitacora, String> colCapital = new TableColumn<>("Capital");
         colCapital.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty("$" + 
-                String.format("%.2f", cellData.getValue().getEmprendedor().getCapital())));
+                String.format("%,.2f", cellData.getValue().getEmprendedor().getCapital())));
+        colCapital.setPrefWidth(120);
 
         TableColumn<EmprendedorConBitacora, String> colBitacora = new TableColumn<>("Bitácora");
         colBitacora.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(cellData.getValue().getTipoBitacora()));
+        colBitacora.setPrefWidth(120);
 
         TableColumn<EmprendedorConBitacora, String> colProyectos = new TableColumn<>("N° Proyectos");
         colProyectos.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty(
                 String.valueOf(cellData.getValue().getEmprendedor().getProyectos().size())));
+        colProyectos.setPrefWidth(90);
 
         tableView.getColumns().addAll(colNombre, colRut, colEmail, colCapital, colBitacora, colProyectos);
 
-        // Cargar datos con información de bitácora
+        // ✅ MÉTODO PARA CARGAR DATOS DE EMPRENDEDORES
+        Runnable cargarDatos = () -> {
+            tableView.getItems().clear();
+            System.out.println("=== CARGANDO EMPRENDEDORES EN LISTADO ===");
+            
+            // Opción 1: Cargar desde mapa principal
+            if (!sistema.getMapaEmprendedores().isEmpty()) {
+                System.out.println("Cargando desde mapa: " + sistema.getMapaEmprendedores().size());
+                for (Emprendedor emp : sistema.getMapaEmprendedores().values()) {
+                    String bitacora = buscarBitacoraDelEmprendedor(emp);
+                    tableView.getItems().add(new EmprendedorConBitacora(emp, bitacora));
+                }
+            } else {
+                // Opción 2: Cargar desde bitácoras si el mapa está vacío
+                System.out.println("Mapa vacío, cargando desde bitácoras...");
+                for (Bitacora b : sistema.getBitacoras()) {
+                    System.out.println("Bitácora " + b.getTipo() + ": " + b.getEmprendedores().size() + " emprendedores");
+                    for (Emprendedor e : b.getEmprendedores()) {
+                        tableView.getItems().add(new EmprendedorConBitacora(e, b.getTipo()));
+                    }
+                }
+            }
+            
+            System.out.println("Total cargado en tabla: " + tableView.getItems().size());
+        };
+        
+        // Cargar datos iniciales
+        cargarDatos.run();
+        
+        // Evento del botón refrescar
+        btnRefrescar.setOnAction(e -> cargarDatos.run());
+        
+        // Label de información
+        Label lblInfo = new Label();
+        lblInfo.textProperty().bind(javafx.beans.binding.Bindings.format(
+            "Emprendedores mostrados: %d", tableView.getItems().size()));
+        lblInfo.setStyle("-fx-text-fill: #666;");
+
+        container.getChildren().addAll(lblTitulo, btnRefrescar, tableView, lblInfo);
+        return container;
+    }
+    
+    // ✅ MÉTODO AUXILIAR: Buscar bitácora del emprendedor
+    private String buscarBitacoraDelEmprendedor(Emprendedor emprendedor) {
         for (Bitacora b : sistema.getBitacoras()) {
-            for (Emprendedor e : b.getEmprendedores()) {
-                tableView.getItems().add(new EmprendedorConBitacora(e, b.getTipo()));
+            if (b.getEmprendedores().contains(emprendedor)) {
+                return b.getTipo();
             }
         }
-
-        return tableView;
+        return "No asignada"; // Si no se encuentra en ninguna bitácora
     }
 
-    private TableView<Inversor> crearTablaInversores() {
+    // ✅ MÉTODO CORREGIDO: Crear tabla de inversores
+    private VBox crearTablaInversores() {
+        VBox container = new VBox(10);
+        container.setPadding(new Insets(10));
+        
+        Label lblTitulo = new Label("LISTADO DE INVERSORES");
+        lblTitulo.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        
+        Button btnRefrescar = new Button("Refrescar Datos");
+        btnRefrescar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+        
         TableView<Inversor> tableView = new TableView<>();
 
         TableColumn<Inversor, String> colNombre = new TableColumn<>("Nombre");
@@ -99,13 +170,13 @@ public class VentanaListado extends VentanaBase {
 
         TableColumn<Inversor, String> colEmail = new TableColumn<>("Email");
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
-        colEmail.setPrefWidth(180);
+        colEmail.setPrefWidth(200);
 
         TableColumn<Inversor, String> colCapital = new TableColumn<>("Capital Disponible");
         colCapital.setCellValueFactory(cellData -> 
             new javafx.beans.property.SimpleStringProperty("$" + 
-                String.format("%.2f", cellData.getValue().getCapitalDisponible())));
-        colCapital.setPrefWidth(120);
+                String.format("%,.2f", cellData.getValue().getCapitalDisponible())));
+        colCapital.setPrefWidth(140);
 
         TableColumn<Inversor, String> colInversiones = new TableColumn<>("N° Inversiones");
         colInversiones.setCellValueFactory(cellData -> 
@@ -115,46 +186,122 @@ public class VentanaListado extends VentanaBase {
 
         tableView.getColumns().addAll(colNombre, colRut, colEmail, colCapital, colInversiones);
 
-        // ✅ CARGAR INVERSORES CORRECTAMENTE
-        if (sistema.getInversores() != null && !sistema.getInversores().isEmpty()) {
-            tableView.getItems().addAll(sistema.getInversores());
-        } else {
-            System.out.println("No hay inversores cargados en el sistema");
-        }
+        // ✅ MÉTODO PARA CARGAR DATOS DE INVERSORES
+        Runnable cargarInversores = () -> {
+            tableView.getItems().clear();
+            System.out.println("=== CARGANDO INVERSORES EN LISTADO ===");
+            
+            if (sistema.getInversores() != null && !sistema.getInversores().isEmpty()) {
+                tableView.getItems().addAll(sistema.getInversores());
+                System.out.println("Inversores cargados: " + sistema.getInversores().size());
+            } else {
+                System.out.println("No hay inversores cargados en el sistema");
+            }
+        };
+        
+        // Cargar datos iniciales
+        cargarInversores.run();
+        
+        // Evento del botón refrescar
+        btnRefrescar.setOnAction(e -> cargarInversores.run());
+        
+        // Label de información
+        Label lblInfo = new Label();
+        lblInfo.textProperty().bind(javafx.beans.binding.Bindings.format(
+            "Inversores mostrados: %d", tableView.getItems().size()));
+        lblInfo.setStyle("-fx-text-fill: #666;");
 
-        return tableView;
+        container.getChildren().addAll(lblTitulo, btnRefrescar, tableView, lblInfo);
+        return container;
     }
 
+    // ✅ MÉTODO MEJORADO: Panel de resumen con más detalles
     private VBox crearPanelResumen() {
-        VBox panel = new VBox(10);
+        VBox panel = new VBox(15);
         panel.setPadding(new Insets(20));
 
-        int totalEmprendedores = sistema.getMapaEmprendedores().size();
-        int totalInversores = sistema.getInversores().size();
-        int totalBitacoras = sistema.getBitacoras().size();
-
         Label lblResumen = new Label("RESUMEN DEL SISTEMA");
-        lblResumen.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+        lblResumen.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;");
 
-        Label lblEmprendedores = new Label("Total Emprendedores: " + totalEmprendedores);
-        Label lblInversores = new Label("Total Inversores: " + totalInversores);
-        Label lblBitacoras = new Label("Total Bitácoras: " + totalBitacoras);
+        // Crear labels que se actualizan dinámicamente
+        Label lblEmprendedores = new Label();
+        Label lblInversores = new Label();
+        Label lblBitacoras = new Label();
+        Label lblProyectos = new Label();
+        
+        // Botón para actualizar resumen
+        Button btnActualizar = new Button("Actualizar Resumen");
+        btnActualizar.setStyle("-fx-background-color: #9b59b6; -fx-text-fill: white;");
+        
+        Runnable actualizarResumen = () -> {
+            int totalEmprendedores = sistema.getMapaEmprendedores().size();
+            int totalInversores = sistema.getInversores().size();
+            int totalBitacoras = sistema.getBitacoras().size();
+            
+            // Contar proyectos totales
+            int totalProyectos = 0;
+            for (Emprendedor emp : sistema.getMapaEmprendedores().values()) {
+                totalProyectos += emp.getProyectos().size();
+            }
+            
+            lblEmprendedores.setText("📊 Total Emprendedores: " + totalEmprendedores);
+            lblInversores.setText("💰 Total Inversores: " + totalInversores);
+            lblBitacoras.setText("📋 Total Bitácoras: " + totalBitacoras);
+            lblProyectos.setText("🚀 Total Proyectos: " + totalProyectos);
+            
+            // Detalle por bitácoras
+            StringBuilder detalleBitacoras = new StringBuilder();
+            detalleBitacoras.append("\n--- DETALLE POR BITÁCORAS ---\n");
+            for (Bitacora b : sistema.getBitacoras()) {
+                detalleBitacoras.append("• ").append(b.getTipo())
+                                .append(": ").append(b.getEmprendedores().size())
+                                .append(" emprendedores\n");
+            }
+            
+            System.out.println("=== RESUMEN ACTUALIZADO ===");
+            System.out.println("Emprendedores: " + totalEmprendedores);
+            System.out.println("Inversores: " + totalInversores);
+            System.out.println("Proyectos: " + totalProyectos);
+            System.out.println(detalleBitacoras.toString());
+        };
+        
+        // Actualizar inicialmente
+        actualizarResumen.run();
+        
+        btnActualizar.setOnAction(e -> actualizarResumen.run());
+        
+        // Estilo para los labels
+        String labelStyle = "-fx-font-size: 14px; -fx-padding: 5px; -fx-background-color: #ecf0f1; -fx-background-radius: 5px;";
+        lblEmprendedores.setStyle(labelStyle);
+        lblInversores.setStyle(labelStyle);
+        lblBitacoras.setStyle(labelStyle);
+        lblProyectos.setStyle(labelStyle);
 
-        panel.getChildren().addAll(lblResumen, lblEmprendedores, lblInversores, lblBitacoras);
+        panel.getChildren().addAll(
+            lblResumen, 
+            new Separator(),
+            lblEmprendedores, 
+            lblInversores, 
+            lblBitacoras, 
+            lblProyectos,
+            new Separator(),
+            btnActualizar
+        );
 
         return panel;
     }
     
+    // ✅ CLASE AUXILIAR: Mantener la clase EmprendedorConBitacora
     public static class EmprendedorConBitacora {
-    private final Emprendedor emprendedor;
-    private final String tipoBitacora;
+        private final Emprendedor emprendedor;
+        private final String tipoBitacora;
 
-    public EmprendedorConBitacora(Emprendedor emprendedor, String tipoBitacora) {
-        this.emprendedor = emprendedor;
-        this.tipoBitacora = tipoBitacora;
-    }
+        public EmprendedorConBitacora(Emprendedor emprendedor, String tipoBitacora) {
+            this.emprendedor = emprendedor;
+            this.tipoBitacora = tipoBitacora;
+        }
 
-    public Emprendedor getEmprendedor() { return emprendedor; }
-    public String getTipoBitacora() { return tipoBitacora; }
+        public Emprendedor getEmprendedor() { return emprendedor; }
+        public String getTipoBitacora() { return tipoBitacora; }
     }
 }

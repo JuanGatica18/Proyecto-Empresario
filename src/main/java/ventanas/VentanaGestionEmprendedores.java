@@ -7,6 +7,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import java.util.List;
 import principal.Sistema;
 import humanos.Emprendedor;
 import principal.Bitacora;
@@ -45,14 +46,16 @@ public class VentanaGestionEmprendedores extends VentanaBase {
         Button btnFiltrar = new Button("Filtrar");
         Button btnEditar = new Button("Editar");
         Button btnEliminar = new Button("Eliminar");
+        Button btnRefrescar = new Button("Refrescar");
         
         btnFiltrar.setStyle("-fx-background-color: #3498db; -fx-text-fill: white;");
         btnEditar.setStyle("-fx-background-color: #f39c12; -fx-text-fill: white;");
         btnEliminar.setStyle("-fx-background-color: #e74c3c; -fx-text-fill: white;");
+        btnRefrescar.setStyle("-fx-background-color: #27ae60; -fx-text-fill: white;");
 
         panelFiltros.getChildren().addAll(
             new Label("Filtrar por bitacora:"), cbBitacoras, btnFiltrar,
-            btnEditar, btnEliminar
+            btnEditar, btnEliminar, btnRefrescar
         );
 
         panelSuperior.getChildren().addAll(lblTitulo, panelFiltros);
@@ -67,6 +70,7 @@ public class VentanaGestionEmprendedores extends VentanaBase {
         btnFiltrar.setOnAction(e -> filtrarEmprendedores());
         btnEditar.setOnAction(e -> editarEmprendedor());
         btnEliminar.setOnAction(e -> eliminarEmprendedor());
+        btnRefrescar.setOnAction(e -> cargarTodosEmprendedores()); // ✅ NUEVO EVENTO
 
         Scene scene = new Scene(root, 900, 600);
         stage.setScene(scene);
@@ -98,15 +102,64 @@ public class VentanaGestionEmprendedores extends VentanaBase {
         });
         colBitacora.setPrefWidth(120);
 
-        tableView.getColumns().addAll(colNombre, colRut, colEmail, colCapital, colBitacora);
+        TableColumn<Emprendedor, String> colProyectos = new TableColumn<>("Proyectos");
+        colProyectos.setCellValueFactory(cellData -> 
+            new javafx.beans.property.SimpleStringProperty(
+                String.valueOf(cellData.getValue().getProyectos().size())));
+        colProyectos.setPrefWidth(80);
+
+        tableView.getColumns().addAll(colNombre, colRut, colEmail, colCapital, colBitacora, colProyectos);
         cargarTodosEmprendedores();
     }
 
+    // ✅ MÉTODO CORREGIDO: Cargar emprendedores desde AMBAS fuentes
     private void cargarTodosEmprendedores() {
         tableView.getItems().clear();
-        for (Bitacora b : sistema.getBitacoras()) {
-            tableView.getItems().addAll(b.getEmprendedores());
+        
+        System.out.println("=== DEBUG: Cargando emprendedores ===");
+        System.out.println("Emprendedores en mapa: " + sistema.getMapaEmprendedores().size());
+        
+        // ✅ CORRECCIÓN 1: Primero cargar desde el mapa principal
+        if (!sistema.getMapaEmprendedores().isEmpty()) {
+            System.out.println("Cargando desde mapa principal...");
+            for (Emprendedor emp : sistema.getMapaEmprendedores().values()) {
+                if (!tableView.getItems().contains(emp)) {
+                    tableView.getItems().add(emp);
+                    System.out.println("  - Agregado desde mapa: " + emp.getNombre());
+                }
+            }
         }
+        
+        // ✅ CORRECCIÓN 2: Luego complementar desde bitácoras (por si hay desfases)
+        for (Bitacora b : sistema.getBitacoras()) {
+            System.out.println("Bitácora " + b.getTipo() + ": " + b.getEmprendedores().size() + " emprendedores");
+            for (Emprendedor emp : b.getEmprendedores()) {
+                if (!tableView.getItems().contains(emp)) {
+                    tableView.getItems().add(emp);
+                    System.out.println("  - Agregado desde bitácora: " + emp.getNombre());
+                }
+            }
+        }
+        
+        System.out.println("Total en tabla: " + tableView.getItems().size());
+        
+        // ✅ AGREGAR: Mostrar mensaje si no hay datos
+        if (tableView.getItems().isEmpty()) {
+            mostrarError("Información", 
+                "No se encontraron emprendedores.\n" +
+                "Verifique que el sistema esté inicializado correctamente.\n" +
+                "Mapa: " + sistema.getMapaEmprendedores().size() + " emprendedores\n" +
+                "Bitácoras: " + contarEmprendedoresEnBitacoras() + " emprendedores");
+        }
+    }
+    
+    // ✅ NUEVO MÉTODO: Contar emprendedores en bitácoras
+    private int contarEmprendedoresEnBitacoras() {
+        int total = 0;
+        for (Bitacora b : sistema.getBitacoras()) {
+            total += b.getEmprendedores().size();
+        }
+        return total;
     }
 
     private void filtrarEmprendedores() {
@@ -115,11 +168,15 @@ public class VentanaGestionEmprendedores extends VentanaBase {
             cargarTodosEmprendedores();
         } else {
             tableView.getItems().clear();
-            for (Bitacora b : sistema.getBitacoras()) {
-                if (b.getTipo().equals(filtro)) {
-                    tableView.getItems().addAll(b.getEmprendedores());
-                }
-            }
+            
+            // ✅ CORRECCIÓN: Buscar tanto en mapa como en bitácoras
+            System.out.println("Filtrando por: " + filtro);
+            
+            // Opción 1: Filtrar desde mapa usando el método del sistema
+            List<Emprendedor> emprendedoresFiltrados = sistema.filtrarPorBitacora(filtro);
+            tableView.getItems().addAll(emprendedoresFiltrados);
+            
+            System.out.println("Emprendedores filtrados: " + emprendedoresFiltrados.size());
         }
     }
 
@@ -186,7 +243,7 @@ public class VentanaGestionEmprendedores extends VentanaBase {
 
                 mostrarMensaje("Exito", "Emprendedor actualizado correctamente.");
                 ventanaEdicion.close();
-                filtrarEmprendedores(); // Refrescar tabla
+                cargarTodosEmprendedores(); 
 
             } catch (NumberFormatException ex) {
                 mostrarError("Error", "El capital debe ser un numero valido.");
@@ -261,7 +318,7 @@ public class VentanaGestionEmprendedores extends VentanaBase {
                 try {
                     sistema.eliminarEmprendedor(seleccionado.getRut());
                     mostrarMensaje("Exito", "Emprendedor eliminado correctamente.");
-                    cargarTodosEmprendedores(); // Refrescar tabla
+                    cargarTodosEmprendedores(); // 
                 } catch (ElementoNoEncontradoException ex) {
                     mostrarError("Error", ex.getMessage());
                 }
