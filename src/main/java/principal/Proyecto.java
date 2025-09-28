@@ -82,13 +82,23 @@ public class Proyecto {
     }
 
     // Getters y Setters
-    public String getNombre() { return nombre; }
-    public void setNombre(String nombre) { this.nombre = nombre; }
+    public String getNombre() { 
+        return nombre;
+    }
+    public void setNombre(String nombre) { 
+        this.nombre = nombre; 
+    }
     
-    public String getDescripcion() { return descripcion; }
-    public void setDescripcion(String descripcion) { this.descripcion = descripcion; }
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public void setDescripcion(String descripcion) { 
+        this.descripcion = descripcion; 
+    }
     
-    public double getInversion() { return inversion; }
+    public double getInversion() {
+        return inversion;
+    }
     public void setInversion(double inversion) { 
         this.inversion = inversion;
         this.empleadosRequeridos = calcularEmpleadosSegunInversion(); // Recalcular
@@ -100,28 +110,51 @@ public class Proyecto {
         this.porcentajeAvance = calcularAvanceSegunEstado(); // Recalcular
     }
     
-    public String getTipo() { return tipo; }
-    public void setTipo(String tipo) { this.tipo = tipo; }
+    public String getTipo() { 
+        return tipo; 
+    }
+    public void setTipo(String tipo) { 
+        this.tipo = tipo; 
+    }
     
-    public LocalDate getFechaCreacion() { return fechaCreacion; }
-    public void setFechaCreacion(LocalDate fechaCreacion) { this.fechaCreacion = fechaCreacion; }
+    public LocalDate getFechaCreacion() { 
+        return fechaCreacion; 
+    }
+    public void setFechaCreacion(LocalDate fechaCreacion) { 
+        this.fechaCreacion = fechaCreacion; 
+    }
     
-    public LocalDate getFechaEstimadaFinalizacion() { return fechaEstimadaFinalizacion; }
+    public LocalDate getFechaEstimadaFinalizacion() { 
+        return fechaEstimadaFinalizacion; 
+    }
+    
     public void setFechaEstimadaFinalizacion(LocalDate fechaEstimadaFinalizacion) { 
         this.fechaEstimadaFinalizacion = fechaEstimadaFinalizacion; 
     }
     
     public String getSector() { return sector; }
-    public void setSector(String sector) { this.sector = sector; }
+    public void setSector(String sector) { 
+        this.sector = sector; 
+    }
     
-    public int getEmpleadosRequeridos() { return empleadosRequeridos; }
-    public void setEmpleadosRequeridos(int empleadosRequeridos) { this.empleadosRequeridos = empleadosRequeridos; }
+    public int getEmpleadosRequeridos() { 
+        return empleadosRequeridos;
+    }
+    public void setEmpleadosRequeridos(int empleadosRequeridos) { 
+        this.empleadosRequeridos = empleadosRequeridos; 
+    }
     
     public String getUbicacion() { return ubicacion; }
-    public void setUbicacion(String ubicacion) { this.ubicacion = ubicacion; }
+    public void setUbicacion(String ubicacion) { 
+        this.ubicacion = ubicacion;
+    }
     
-    public double getPorcentajeAvance() { return porcentajeAvance; }
-    public void setPorcentajeAvance(double porcentajeAvance) { this.porcentajeAvance = porcentajeAvance; }
+    public double getPorcentajeAvance() { 
+        return porcentajeAvance; 
+    }
+    public void setPorcentajeAvance(double porcentajeAvance) {
+        this.porcentajeAvance = porcentajeAvance; 
+    }
 
     public String toCSVString() {
         return nombre + "~" + descripcion + "~" + inversion + "~" + estado + "~" + tipo;

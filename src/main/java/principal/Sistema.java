@@ -66,7 +66,6 @@ public class Sistema {
             cargarInversoresEjemplo();
         }
         
-        // ✅ CORRECCIÓN CRÍTICA: Sincronizar datos después de la carga
         sincronizarDatos();
         
         System.out.println("=== SISTEMA INICIALIZADO ===");
@@ -75,7 +74,6 @@ public class Sistema {
         mostrarEstadoBitacoras();
     }
     
-    // ✅ NUEVO MÉTODO: Sincronizar datos entre mapa y bitácoras
     private void sincronizarDatos() {
         System.out.println("=== SINCRONIZANDO DATOS ===");
         
@@ -96,7 +94,6 @@ public class Sistema {
         }
     }
     
-    // ✅ NUEVO MÉTODO: Redistribuir emprendedores cuando están solo en el mapa
     private void redistribuirEmprendedores() {
         System.out.println("Redistribuyendo emprendedores a bitácoras...");
         
@@ -120,7 +117,6 @@ public class Sistema {
         }
     }
     
-    // ✅ MÉTODO AUXILIAR: Mostrar estado de las bitácoras
     private void mostrarEstadoBitacoras() {
         System.out.println("--- Estado de Bitácoras ---");
         for (Bitacora b : bitacoras) {
@@ -137,7 +133,6 @@ public class Sistema {
                 return false;
             }
 
-            // ✅ CORRECCIÓN: No limpiar datos existentes hasta confirmar carga exitosa
             Map<String, Emprendedor> tempMapa = new HashMap<>(mapaEmprendedores);
 
             try (BufferedReader br = new BufferedReader(new FileReader(archivo))) {
@@ -154,14 +149,14 @@ public class Sistema {
                     if (linea.trim().isEmpty()) continue;
                     
                     String[] datos = linea.split(",");
-                    if (datos.length >= 4) { // Mínimo 4 campos requeridos
+                    if (datos.length >= 4) { 
                         try {
                             String nombre = datos[0].trim();
                             String rut = datos[1].trim();
                             String email = datos[2].trim();
                             double capital = Double.parseDouble(datos[3].trim());
                             
-                            // TipoBitacora opcional (campo 5)
+                            // TipoBitacora opciona
                             String tipoBitacora = "Tecnologia"; // Por defecto
                             if (datos.length >= 5) {
                                 tipoBitacora = datos[4].trim();
@@ -257,7 +252,6 @@ public class Sistema {
         cargarInversoresEjemplo();
     }
 
-    // ✅ CORRECCIÓN: Cargar emprendedores de ejemplo Y agregarlos a bitácoras
     private void cargarEmprendedoresEjemplo() {
         try {
             System.out.println("Cargando emprendedores de ejemplo...");
@@ -280,7 +274,6 @@ public class Sistema {
             Emprendedor emp4 = new Emprendedor("Ali Mentos", "44444444-4", "ali@alimentos.cl", 15000.0);
             agregarProyectosPorDefecto(emp4, "Alimentos");
 
-            // ✅ CORRECCIÓN CRÍTICA: Usar el método correcto que agrega a AMBAS estructuras
             agregarEmprendedor(emp1, "Tecnologia");
             agregarEmprendedor(emp2, "Salud");
             agregarEmprendedor(emp3, "Educacion");
@@ -300,11 +293,7 @@ public class Sistema {
         inversores.add(new Inversor("Inversor B", "55555555-5", "inv.b@mail.com", 100000.0));
         System.out.println("Inversores de ejemplo cargados: " + inversores.size());
     }
-    
-    // =========================================================================
-    // MÉTODOS DE NEGOCIO
-    // =========================================================================
-    
+
     public void agregarEmprendedor(Emprendedor emprendedor, String tipoBitacora) throws DatosInvalidosException {
         if (mapaEmprendedores.containsKey(emprendedor.getRut())) {
             throw new DatosInvalidosException("El emprendedor con RUT " + emprendedor.getRut() + " ya existe.");
@@ -399,10 +388,6 @@ public class Sistema {
         return resultado;
     }
     
-    // =========================================================================
-    // MÉTODOS DE PERSISTENCIA (CSV/TXT)
-    // =========================================================================
-
     public void guardarEmprendedores(String nombreArchivo) {
         try (PrintWriter pw = new PrintWriter(new FileWriter(nombreArchivo))) {
             pw.println("Nombre,RUT,Email,Capital,TipoBitacora");

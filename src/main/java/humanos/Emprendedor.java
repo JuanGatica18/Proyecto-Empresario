@@ -60,7 +60,8 @@ public class Emprendedor extends Persona{
         }
         return sb.toString();
     }
-    // 🆕 Método para exportar a CSV
+    
+    // Método para exportar a CSV
     public String toCSVString() {
         // Generar la cadena de proyectos separada por |
         String proyectosStr = proyectos.stream()
@@ -71,6 +72,17 @@ public class Emprendedor extends Persona{
         return String.format("%s,%s,%s,%.2f,\"%s\"", 
                              getNombre(), getRut(), getEmail(), capital, proyectosStr);
     }
+    
+    @Override
+    public String toString() {
+        return String.format("%s (RUT: %s - Capital: $%,.2f - %d proyecto%s)", 
+                           getNombre(), 
+                           getRut(), 
+                           capital, 
+                           proyectos.size(),
+                           proyectos.size() == 1 ? "" : "s");
+    }
+    
     // Sobrescritura de mostrarInfo()
     @Override
     public String mostrarInfo() {

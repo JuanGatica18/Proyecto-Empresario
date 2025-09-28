@@ -1,84 +1,73 @@
 ====================================================
           REPORTE GENERAL DEL SISTEMA DE INVERSIÓN
 ====================================================
-Fecha de Reporte: Sat Sep 27 20:37:14 CLST 2025
+Fecha de Reporte: Sat Sep 27 21:47:12 CLST 2025
 
 --- RESUMEN GENERAL ---
-Total Emprendedores: 11
-Total Inversores: 10
+Total Emprendedores: 13
+Total Inversores: 12
 Total Bitácoras: 4
 
 --- DETALLE DE EMPRENDEDORES POR BITÁCORA ---
 >>> Bitácora: Tecnologia (Emprendedores: 4)
-  - Nombre: Juan Perez, RUT: 11111111-1, Email: juan.perez@tech.cl, Capital: 15000.0, Proyectos: 0
+  - Nombre: Laura Torres, RUT: 10101010-1, Email: laura.torres@smartedu.cl, Capital: 6000.0, Proyectos: 2
     Proyectos:
-      (No tiene proyectos)
-  - Nombre: Carlos Lopez, RUT: 55555555-5, Email: carlos.lopez@innovate.cl, Capital: 30000.25, Proyectos: 0
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+      * pokemon (Inversión: $10000.0 | Riesgo: Bajo)
+  - Nombre: Educa Chile, RUT: 33333333-3, Email: edu@edu.cl, Capital: 5000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
-  - Nombre: Diego Torres, RUT: 99999999-9, Email: diego.torres@software.cl, Capital: 45000.0, Proyectos: 0
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: peter, RUT: 222111, Email: juan.@gmail.com, Capital: 123.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
-  - Nombre: pedro, RUT: 10497061-2, Email: pedro@gmail.com, Capital: 10000.0, Proyectos: 0
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: Ema Tecnologia, RUT: 11111111-1, Email: ema@tec.cl, Capital: 10000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
 
 >>> Bitácora: Salud (Emprendedores: 3)
-  - Nombre: Maria Gonzalez, RUT: 22222222-2, Email: maria.gonzalez@health.cl, Capital: 25000.5, Proyectos: 0
+  - Nombre: Ana Rodriguez, RUT: 44444444-4, Email: ana.rodriguez@innovatech.cl, Capital: 15000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
-  - Nombre: Laura Fernandez, RUT: 66666666-6, Email: laura.fernandez@medical.cl, Capital: 18000.5, Proyectos: 0
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: Sofia Garcia, RUT: 88888888-8, Email: sofia.garcia@greentech.cl, Capital: 18000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
-  - Nombre: Valentina Castro, RUT: 10101010-1, Email: valentina.castro@wellness.cl, Capital: 35000.25, Proyectos: 0
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: Salva Salud, RUT: 22222222-2, Email: salva@salud.cl, Capital: 20000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
 
->>> Bitácora: Educacion (Emprendedores: 2)
-  - Nombre: Pedro Martinez, RUT: 33333333-3, Email: pedro.martinez@edu.cl, Capital: 8000.75, Proyectos: 0
+>>> Bitácora: Educacion (Emprendedores: 3)
+  - Nombre: Juan Perez, RUT: 77777777-7, Email: juan.perez@foodtech.cl, Capital: 12000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
-  - Nombre: Roberto Sanchez, RUT: 77777777-7, Email: roberto.sanchez@learning.cl, Capital: 6500.0, Proyectos: 0
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: Pedro Silva, RUT: 99999999-9, Email: pedro.silva@medcare.cl, Capital: 30000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: Diego Morales, RUT: 12121212-1, Email: diego.morales@organicfood.cl, Capital: 14000.0, Proyectos: 1
+    Proyectos:
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
 
->>> Bitácora: Alimentos (Emprendedores: 2)
-  - Nombre: Ana Rodriguez, RUT: 44444444-4, Email: ana.rodriguez@food.cl, Capital: 12000.0, Proyectos: 0
+>>> Bitácora: Alimentos (Emprendedores: 3)
+  - Nombre: Valentina Ruiz, RUT: 13131313-1, Email: valentina.ruiz@appdev.cl, Capital: 22000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
-  - Nombre: Carmen Silva, RUT: 88888888-8, Email: carmen.silva@organic.cl, Capital: 22000.75, Proyectos: 0
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: Carlos Mendez, RUT: 55555555-5, Email: carlos.mendez@healthplus.cl, Capital: 25000.0, Proyectos: 1
     Proyectos:
-      (No tiene proyectos)
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
+  - Nombre: Maria Lopez, RUT: 66666666-6, Email: maria.lopez@edulearn.cl, Capital: 8000.0, Proyectos: 1
+    Proyectos:
+      * Proyecto Genérico (Inversión: $1000.0 | Riesgo: Medio)
 
 --- DETALLE DE INVERSORES ---
-- Inversor: Maria Rodriguez | RUT: 12345678-9 | Email: maria.rodriguez@inversiones.cl | Capital disponible: $75.000,50
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Carlos Mendoza | RUT: 98765432-1 | Email: carlos.mendoza@capital.cl | Capital disponible: $120.000,00
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Ana Gutierrez | RUT: 11223344-5 | Email: ana.gutierrez@financiera.cl | Capital disponible: $95.000,75
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Roberto Silva | RUT: 55667788-2 | Email: roberto.silva@ventures.cl | Capital disponible: $200.000,00
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Patricia Lopez | RUT: 33445566-8 | Email: patricia.lopez@angel.cl | Capital disponible: $45.000,25
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Diego Ramirez | RUT: 77889900-3 | Email: diego.ramirez@investment.cl | Capital disponible: $150.000,00
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Camila Torres | RUT: 22334455-6 | Email: camila.torres@funding.cl | Capital disponible: $85.000,50
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Fernando Castro | RUT: 66778899-4 | Email: fernando.castro@equity.cl | Capital disponible: $110.000,75
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Sofia Martinez | RUT: 44556677-7 | Email: sofia.martinez@capital.com | Capital disponible: $65.000,00
-  Historial de Inversiones:
-    (Sin inversiones registradas)
-- Inversor: Alejandro Vega | RUT: 88990011-0 | Email: alejandro.vega@investor.cl | Capital disponible: $175.000,25
-  Historial de Inversiones:
-    (Sin inversiones registradas)
+- Inversor: Inversor A | RUT: 44444444-4 | Email: inv.a@mail.com | Capital disponible: $50.000,00
+- Inversor: Inversor B | RUT: 55555555-5 | Email: inv.b@mail.com | Capital disponible: $98.001,00
+- Inversor: Roberto Investments | RUT: 20202020-2 | Email: roberto@investments.cl | Capital disponible: $75.000,00
+- Inversor: Claudia Capital | RUT: 21212121-2 | Email: claudia@capitalfund.cl | Capital disponible: $120.000,00
+- Inversor: Venture Partners SA | RUT: 22222222-2 | Email: info@venturepartners.cl | Capital disponible: $200.000,00
+- Inversor: Angel Investor Group | RUT: 23232323-2 | Email: contact@angelgroup.cl | Capital disponible: $80.000,00
+- Inversor: Innovation Fund | RUT: 24242424-2 | Email: admin@innovationfund.cl | Capital disponible: $150.000,00
+- Inversor: Tech Venture Capital | RUT: 25252525-2 | Email: investments@techvc.cl | Capital disponible: $300.000,00
+- Inversor: Green Investment Co | RUT: 26262626-2 | Email: green@investment.cl | Capital disponible: $90.000,00
+- Inversor: Future Capital | RUT: 27272727-2 | Email: future@capital.cl | Capital disponible: $110.000,00
+- Inversor: Smart Money Fund | RUT: 28282828-2 | Email: smart@moneyfund.cl | Capital disponible: $180.000,00
+- Inversor: Digital Ventures | RUT: 29292929-2 | Email: digital@ventures.cl | Capital disponible: $250.000,00
 ====================================================
