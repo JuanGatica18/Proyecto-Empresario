@@ -135,7 +135,7 @@ public class Main extends Application {
         );
 
         Scene scene = new Scene(root, 300, 450); 
-        primaryStage.setTitle("Sistema de Emprendedores - SIA");
+        primaryStage.setTitle("Sistema de Emprendedores");
         primaryStage.setScene(scene);
         primaryStage.show();
         

@@ -275,7 +275,6 @@ public class Sistema {
         }
         
         if (bitacoraDestino != null) {
-            // ✅ CRÍTICO: Agregar a AMBAS estructuras
             bitacoraDestino.agregarEmprendedor(emprendedor);
             mapaEmprendedores.put(emprendedor.getRut(), emprendedor);
             

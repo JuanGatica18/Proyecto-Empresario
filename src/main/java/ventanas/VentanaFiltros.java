@@ -18,7 +18,7 @@ public class VentanaFiltros extends VentanaBase {
     private Label lblResultados;
 
     public VentanaFiltros(Sistema sistema) {
-        super(sistema, "Filtros Avanzados - SIA2.5");
+        super(sistema, "Filtros Avanzados");
         configurarVentana();
     }
 

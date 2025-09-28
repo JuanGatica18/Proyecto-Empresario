@@ -25,7 +25,7 @@ public class VentanaProyectos extends VentanaBase {
     private ComboBox<String> cbFiltroEstado;
 
     public VentanaProyectos(Sistema sistema) {
-        super(sistema, "Gestión de Proyectos - SIA");
+        super(sistema, "Gestión de Proyectos");
         configurarVentana();
     }
 
