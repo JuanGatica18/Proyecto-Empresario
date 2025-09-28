@@ -30,11 +30,11 @@
 
 ### 3. Descargar JavaFx 13
 1. IR A: https://gluonhq.com/products/javafx/
-2. Descargar **JavaFX Windows SDK 11.0.2**
-3. Descomprimir en `C:\javafx-11.0.2`
+2. Descargar **JavaFX Windows SDK 13**
+3. Descomprimir en `C:\javafx-13`
 4. La estructura debe ser:
    ```
-   C:\javafx-11.0.2\
+   C:\javafx-13\
    ├── bin\
    ├── lib\
    └── legal\
@@ -119,7 +119,7 @@ mvn clean javafx:run
 <dependency>
     <groupId>org.openjfx</groupId>
     <artifactId>javafx-controls</artifactId>
-    <version>11.0.2</version>
+    <version>13</version>
 </dependency>
 ```
 
