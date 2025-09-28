@@ -45,7 +45,7 @@ Abrir **Propiedades del Sistema > Variables de entorno**:
 
 **Variables del sistema:**
 - `JAVA_HOME` = `C:\Program Files\Java\jdk-11.0.X` (donde X es tu versión)
-- `JAVAFX_HOME` = `C:\javafx-11.0.2`
+- `JAVAFX_HOME` = `C:\javafx-13`
 - `PATH` agregar: `%JAVA_HOME%\bin` y `%MAVEN_HOME%\bin`
 
 **Verificar configuración:**
@@ -85,14 +85,14 @@ mvn javafx:run
 ```cmd
 mvn clean compile
 
-java --module-path "C:\javafx-11.0.2\lib" --add-modules javafx.controls,javafx.fxml -cp target/classes packs.pack.Main
+java --module-path "C:\javafx-13\lib" --add-modules javafx.controls,javafx.fxml -cp target/classes packs.pack.Main
 ```
 
 **Opción 3 - Compilación manual:**
 ```cmd
-javac --module-path "C:\javafx-11.0.2\lib" --add-modules javafx.controls -d target/classes -cp "target/classes" src/main/java/packs/pack/*.java src/main/java/principal/*.java src/main/java/humanos/*.java src/main/java/ventanas/*.java src/main/java/excepciones/*.java
+javac --module-path "C:\javafx-13\lib" --add-modules javafx.controls -d target/classes -cp "target/classes" src/main/java/packs/pack/*.java src/main/java/principal/*.java src/main/java/humanos/*.java src/main/java/ventanas/*.java src/main/java/excepciones/*.java
 
-java --module-path "C:\javafx-11.0.2\lib" --add-modules javafx.controls -cp target/classes packs.pack.Main
+java --module-path "C:\javafx-13\lib" --add-modules javafx.controls -cp target/classes packs.pack.Main
 ```
 
 ## Solución de Problemas Comunes
@@ -101,7 +101,7 @@ java --module-path "C:\javafx-11.0.2\lib" --add-modules javafx.controls -cp targ
 **Causa:** JavaFX no está en el classpath
 **Solución:**
 ```cmd
-set PATH=%PATH%;C:\javafx-11.0.2\lib
+set PATH=%PATH%;C:\javafx-13\lib
 mvn clean javafx:run
 ```
 
@@ -126,32 +126,10 @@ mvn clean javafx:run
 ### Error: "Module javafx.controls not found"
 **Causa:** JavaFX no está instalado correctamente
 **Solución:**
-1. Verificar que `C:\javafx-11.0.2\lib` contenga archivos .jar
+1. Verificar que `C:\javafx-13\lib` contenga archivos .jar
 2. Ejecutar con path absoluto:
 ```cmd
-java --module-path "C:\javafx-11.0.2\lib" --add-modules javafx.controls -cp target/classes packs.pack.Main
-```
-
-## Comandos de Desarrollo
-
-**Limpiar proyecto:**
-```cmd
-mvn clean
-```
-
-**Solo compilar:**
-```cmd
-mvn compile
-```
-
-**Ejecutar con debug:**
-```cmd
-mvn clean javafx:run@debug
-```
-
-**Generar JAR (sin JavaFX incluido):**
-```cmd
-mvn package
+java --module-path "C:\javafx-13\lib" --add-modules javafx.controls -cp target/classes packs.pack.Main
 ```
 
 ## Archivos Generados
@@ -168,8 +146,3 @@ Si todo está correcto, deberías ver:
 3. Sin errores en consola
 4. Archivos CSV generándose al cerrar
 
-**Comando de prueba rápida:**
-```cmd
-cd tu-proyecto
-mvn clean javafx:run
-```
